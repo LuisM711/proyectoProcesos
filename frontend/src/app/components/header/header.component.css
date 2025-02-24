@@ -1,0 +1,32 @@
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2e3b4e; /* Fondo oscuro */
+    color: white;
+}
+
+mat-toolbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+mat-toolbar .header-center a:hover {
+    box-shadow: 0 0 10px 2px #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+mat-toolbar mat-icon {
+    color: white;
+    font-size: 24px;
+}
+
+mat-toolbar mat-icon:hover {
+    color: #ffca28;
+}
+
+.active-link {
+    box-shadow: 0 0 10px 2px #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
+}

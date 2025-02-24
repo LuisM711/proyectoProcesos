@@ -1,0 +1,20 @@
+<mat-toolbar color="accent" class="header-toolbar">
+
+    <div class="header-left">
+        <span class="header-logo">Control de asistencia</span>
+    </div>
+
+    <div class="header-center">
+        <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+        <a mat-button routerLink="/registrarAsistencia" routerLinkActive="active-link">Registrar asistencia</a>
+        <a mat-button *ngIf="isAdmin" routerLinkActive="active-link" routerLink="/admin">Admin</a>
+        <!-- <a mat-button routerLink="/admin" routerLinkActive="active-link">Admin</a> -->
+
+    </div>
+
+    <div class="header-right">
+        <button mat-icon-button aria-label="Mi cuenta" routerLink="/mi-cuenta">
+            <mat-icon>person</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
