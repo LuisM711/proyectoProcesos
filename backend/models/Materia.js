@@ -19,6 +19,15 @@ Materia.init({
         defaultValue: true
     }
 }, {
+    hooks: {
+        afterSync: async (options) => {
+            await Materia.findOrCreate({ where: { nombre: 'Computo ubicuo' } });
+            await Materia.findOrCreate({ where: { nombre: 'Innovación de procesos con NTIC' } });
+            await Materia.findOrCreate({ where: { nombre: 'Graficación' } });
+            await Materia.findOrCreate({ where: { nombre: 'Redes neuronales y logica difusa' } });
+            await Materia.findOrCreate({ where: { nombre: 'Sistemas distribuidos' } });
+        }
+    },
     sequelize,
     modelName: 'materia',
     tableName: 'materias',

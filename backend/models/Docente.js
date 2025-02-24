@@ -23,6 +23,15 @@ Docente.init({
     }
 }
     , {
+        hooks: {
+            afterSync: async (options) => {
+                await Docente.findOrCreate({ where: { nombre: 'Mirsa', apellido: 'Inzunza' } });
+                await Docente.findOrCreate({ where: { nombre: 'José Miguel', apellido: 'Mendívil' } });
+                await Docente.findOrCreate({ where: { nombre: 'Herman', apellido: 'Ayala' } });
+                await Docente.findOrCreate({ where: { nombre: 'Yobani', apellido: 'Martínez' } });
+                await Docente.findOrCreate({ where: { nombre: 'Rocío', apellido: 'Becerra' } });
+            }
+        },
         sequelize,
         modelName: 'docente',
         tableName: 'docentes',

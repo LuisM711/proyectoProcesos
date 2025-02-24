@@ -2,12 +2,18 @@ const DocuenteModel = require('../models/Docente.js');
 const ModuloModel = require('../models/Modulo.js');
 const GrupoModel = require('../models/Grupo.js');
 const MateriaModel = require('../models/Materia.js');
+const HoraModel = require('../models/Hora.js');
 
 module.exports.getModulos = async (req, res) => {
     try {
         const modulos = await ModuloModel.findAll(
             {
                 include: [
+                    {
+                        model: HoraModel,
+                        as: 'hora'
+                    },
+
                     {
                         model: GrupoModel,
                         as: 'grupo'

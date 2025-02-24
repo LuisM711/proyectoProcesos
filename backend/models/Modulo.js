@@ -5,6 +5,8 @@ const Grupo = require('./Grupo.js');
 const Materia = require('./Materia.js');
 const Docente = require('./Docente.js');
 
+const Hora = require('./Hora.js');
+
 
 class Modulo extends Model { }
 Modulo.init({
@@ -13,9 +15,14 @@ Modulo.init({
         primaryKey: true,
         autoIncrement: true
     },
-    hora: {
-        type: DataTypes.INTEGER, //1-8
-        allowNull: false
+    horaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Hora,
+            key: 'id'
+        }
+
     },
     grupoId: {
         type: DataTypes.INTEGER,
@@ -40,6 +47,11 @@ Modulo.init({
     },
 
 }, {
+    hooks: {
+        afterSync: async (options) => {
+            await Modulo.findOrCreate({ where: { horaId: 1, grupoId: 1, materiaId: 1, docenteId: 1 } });
+        }
+    },
     sequelize,
     modelName: 'modulo',
     tableName: 'modulos',
@@ -47,13 +59,14 @@ Modulo.init({
     indexes: [
         {
             unique: true,
-            fields: ['hora', 'grupoId'],
+            fields: ['horaId', 'grupoId'],
             name: 'moduloIndex'
         }
     ]
 
 
 });
+Modulo.belongsTo(Hora, { foreignKey: 'horaId', as: 'hora' });
 Modulo.belongsTo(Grupo, { foreignKey: 'grupoId', as: 'grupo' });
 Modulo.belongsTo(Materia, { foreignKey: 'materiaId', as: 'materia' });
 Modulo.belongsTo(Docente, { foreignKey: 'docenteId', as: 'docente' });

@@ -30,6 +30,13 @@ Grupo.init({
         defaultValue: true
     }
 }, {
+    hooks: {
+        afterSync: async (options) => {
+            await Grupo.findOrCreate({ where: { grado: 4, grupo: 2 } });
+            await Grupo.findOrCreate({ where: { grado: 4, grupo: 1 } });
+            
+        }
+    },
     sequelize,
     modelName: 'grupo',
     tableName: 'grupos',

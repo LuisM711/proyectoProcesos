@@ -5,12 +5,14 @@ const docentesController = require('../controllers/docentesController');
 const gruposController = require('../controllers/gruposController');
 const materiasController = require('../controllers/materiasController');
 const modulosController = require('../controllers/modulosController');
+const generalController = require('../controllers/generalController');
 
 module.exports = () => {
     router.get('/', (req, res) => {
         res.json({ message: 'Bienvenido a la API' });
     });
 
+    router.get('/horas', generalController.getHoras);
 
     router.get('/docentes', docentesController.getDocentes);
     router.get('/docentesActivos', docentesController.getDocentesActivos);
