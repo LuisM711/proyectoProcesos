@@ -15,7 +15,7 @@ module.exports.login = async (req, res) => {
         }
         req.session.token = usuario;
         // console.log(req.session.token);
-        return res.json(usuario);
+        return res.status(200).json(usuario);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }

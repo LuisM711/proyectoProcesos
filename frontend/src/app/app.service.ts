@@ -11,5 +11,8 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   
+  login(data: any): Observable<any> {
+    return this.http.post<any>(`${environment.backendUrl}/login`, data, { withCredentials: true });
+  }
 
 }
