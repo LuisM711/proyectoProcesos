@@ -38,6 +38,7 @@ Hora.init({
             await Hora.findOrCreate({ where: { numero: 13, horaInicio: '19:00:00', horaFin: '20:00:00' } });
             await Hora.findOrCreate({ where: { numero: 14, horaInicio: '20:00:00', horaFin: '21:00:00' } });
             await Hora.findOrCreate({ where: { numero: 15, horaInicio: '21:00:00', horaFin: '22:00:00' } });
+            await Hora.findOrCreate({ where: { numero: 16, horaInicio: '22:00:00', horaFin: '23:00:00' } });
 
             
         }

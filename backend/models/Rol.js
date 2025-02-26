@@ -18,6 +18,8 @@ Rol.init({
         afterSync: async (options) => {
             await Rol.findOrCreate({ where: { nombre: 'admin' } });
             await Rol.findOrCreate({ where: { nombre: 'jefegpo' } });
+            await Rol.findOrCreate({ where: { nombre: 'checador' } });
+            await Rol.findOrCreate({ where: { nombre: 'profesor' } });
         }
     },
     sequelize,
