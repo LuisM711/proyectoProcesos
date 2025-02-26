@@ -14,5 +14,11 @@ export class AppService {
   login(data: any): Observable<any> {
     return this.http.post<any>(`${environment.backendUrl}/login`, data, { withCredentials: true });
   }
+  getInfo(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/getInfo`, { withCredentials: true });
+  }
+  logout(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/logout`, { withCredentials: true });
+  }
 
 }

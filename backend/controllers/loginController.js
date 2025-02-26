@@ -11,7 +11,7 @@ module.exports.login = async (req, res) => {
             }
         });
         if (!usuario) {
-            return res.status(404).json({ message: 'Usuario o contraseña incorrectos' });
+            return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
         }
         req.session.token = usuario;
         // console.log(req.session.token);

@@ -1,18 +1,31 @@
-module.exports.getData = (req, res) => {
-    return new Promise((resolve, reject) => {
-        try {
-            if (req.session.token) {
-                resolve(req.session.token);
-            } else {
-                reject({ status: 401, message: 'No hay token' });
-            }
-        } catch (error) {
-            reject({ status: 500, message: error.message });
+// module.exports.getData = (req, res) => {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             if (req.session.token) {
+//                 resolve(req.session.token);
+//             } else {
+//                 reject({ status: 401, message: 'No hay token' });
+//             }
+//         } catch (error) {
+//             reject({ status: 500, message: error.message });
+//         }
+//     });
+// };
+
+module.exports.getInfo = async (req, res) => {
+    try {
+        const token = req.session.token;
+        if (token) {
+            return res.json({ ...token, logged: true });
+
         }
-    });
+        return res.json({ error: 'No autorizado', logged: false });
+    } catch (error) {
+        return res.status(500).json({ error: error.message, logged: false });
+
+    }
+
 };
-
-
 module.exports.verifyToken = (req, res, next) => {
     if (req.session.token) {
         return next();

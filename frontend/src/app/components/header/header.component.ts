@@ -15,7 +15,43 @@ import { AppService } from '../../app.service';
 })
 export class HeaderComponent {
   isAdmin = false;
+  loggedIn = false;
 
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService) {
+    this.appService.getInfo().subscribe(
+      (response) => {
+        if(!response.logged)
+          return;
+
+        // console.log(response);
+        if (response.rolId === 1) {
+          this.isAdmin = true;
+        } else {
+          this.isAdmin = false;
+        }
+        this.loggedIn = true;
+      },
+      (error) => {
+        // console.log(error);
+      }
+    );
+  }
+
+
+  logout() {
+    this.appService.logout().subscribe(
+      (response) => {
+        // console.log(response);
+        if (response) {
+          this.isAdmin = false;
+          this.loggedIn = false;
+          window.location.reload();
+        }
+      },
+      (error) => {
+        // console.log(error);
+      }
+    );
+  }
 
 }

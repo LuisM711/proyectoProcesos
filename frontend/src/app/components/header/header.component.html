@@ -13,8 +13,18 @@
     </div>
 
     <div class="header-right">
-        <button mat-icon-button aria-label="Mi cuenta" routerLink="/mi-cuenta">
-            <mat-icon>person</mat-icon>
+        <!-- <button mat-icon-button aria-label="Mi cuenta" routerLink="/login">
+            
+        </button> -->
+        <a mat-button *ngIf="!loggedIn" routerLink="/login">
+            Iniciar sesión
+            <mat-icon>login</mat-icon>
+        </a>
+        
+        <button mat-button *ngIf="loggedIn" (click)="logout()">
+            Cerrar sesión
+            <mat-icon>logout</mat-icon>
         </button>
+        
     </div>
 </mat-toolbar>

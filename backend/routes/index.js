@@ -15,6 +15,8 @@ module.exports = () => {
         res.json({ message: 'Bienvenido a la API' });
     });
 
+
+    router.get('/getInfo', verification.getInfo);
     router.get('/horas', generalController.getHoras);
     router.post('/login', loginController.login);
     router.get('/logout', loginController.logout);

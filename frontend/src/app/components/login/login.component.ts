@@ -36,20 +36,21 @@ export class LoginComponent {
 
 
 
-
   login() {
 
     this.appService.login(this.credentials).subscribe(
       (response) => {
         console.log(response.status);
         if (response) {
-          this.router.navigate(['/admin']);
+          this.snackBar.open('Inicio de sesión exitoso', 'Close', { duration: 3000 });
+          // this.router.navigate(['/']);
+          window.location.href = '/';
         } else {
-          this.snackBar.open('Invalid credentials', 'Close', { duration: 3000 });
+          this.snackBar.open('Error al iniciar sesión', 'Close', { duration: 3000 });
         }
       },
       (error) => {
-        this.snackBar.open('Error', 'Close', { duration: 3000 });
+        this.snackBar.open('Error al iniciar sesión', 'Close', { duration: 3000 });
       }
     );
   }

@@ -6,12 +6,19 @@ mat-toolbar {
     color: white;
 }
 
-mat-toolbar a {
+mat-toolbar a,
+mat-toolbar button {
     color: white;
     text-decoration: none;
     margin: 0 10px;
+    gap: 10px;
 }
 
+mat-toolbar mat-icon {
+    font-size: 40px;
+    height: auto;
+    width: auto;
+}
 mat-toolbar .header-center a:hover {
     box-shadow: 0 0 10px 2px #ffffff;
     background-color: rgba(255, 255, 255, 0.2);
