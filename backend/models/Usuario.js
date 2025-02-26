@@ -1,6 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database.js');
 
+const Rol = require('./Rol.js');
+const Grupo = require('./Grupo.js');
 class Usuario extends Model { }
 Usuario.init({
     id: {
@@ -16,7 +18,7 @@ Usuario.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    correo: {
+    numeroDeCuenta: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
@@ -25,24 +27,41 @@ Usuario.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    rol: {
+    grupoId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: Grupo,
+            key: 'id'
+        }
+    },
+    rolId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: Rol,
+            key: 'id'
+        }
     },
     isActive: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: true
     }
 }, {
+    hooks: {
+        afterSync: async (options) => {
+            await Usuario.findOrCreate({ where: { nombre: 'Luis Mario', apellido: 'López Reyes', numeroDeCuenta: '18002188', password: 'Luis1234', grupoId: 1, rolId: 1 } });
+        }
+    },
     sequelize,
     modelName: 'usuario',
     tableName: 'usuarios',
     timestamps: false,
-    references: {
-        model: 'rol',
-        key: 'rol'
-    }
+
 });
+Usuario.belongsTo(Grupo, { foreignKey: 'grupoId', as: 'grupo' });
+Usuario.belongsTo(Rol, { foreignKey: 'rolId', as: 'rol' });
+
 
 module.exports = Usuario;
