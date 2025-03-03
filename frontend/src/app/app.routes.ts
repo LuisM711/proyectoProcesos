@@ -4,6 +4,11 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { GruposComponent } from './components/grupos/grupos.component';
+import { DocentesComponent } from './components/docentes/docentes.component';
+import { ReportesComponent } from './components/reportes/reportes.component';
+
 import { verificarGuard, verificarGuardAdmin } from './verificar.guard';
 
 export const routes: Routes = [
@@ -13,6 +18,10 @@ export const routes: Routes = [
     {
         path: 'admin', children: [
             { path: '', component: AdminComponent, canActivate: [verificarGuardAdmin] },
+            { path: 'usuarios', component: UsuariosComponent, canActivate: [verificarGuardAdmin] },
+            { path: 'grupos', component: GruposComponent, canActivate: [verificarGuardAdmin] },
+            { path: 'docentes', component: DocentesComponent, canActivate: [verificarGuardAdmin] },
+            { path: 'reportes', component: ReportesComponent, canActivate: [verificarGuardAdmin] }
             // { path: 'dashboard', component: DashboardComponent, canActivate: [verificarGuardAdmin] },
             // { path: 'extras', component: ExtrasComponent, canActivate: [verificarGuardAdmin] },
             // { path: 'garantias', component: GarantiasComponent, canActivate: [verificarGuardAdmin] },
