@@ -49,7 +49,11 @@ Modulo.init({
 }, {
     hooks: {
         afterSync: async (options) => {
-            await Modulo.findOrCreate({ where: { horaId: 1, grupoId: 1, materiaId: 1, docenteId: 1 } });
+            await Modulo.findOrCreate({ where: { horaId: 8, grupoId: 1, materiaId: 1, docenteId: 1 } });
+            await Modulo.findOrCreate({ where: { horaId: 9, grupoId: 1, materiaId: 2, docenteId: 2 } });
+            await Modulo.findOrCreate({ where: { horaId: 10, grupoId: 1, materiaId: 3, docenteId: 3 } });
+            await Modulo.findOrCreate({ where: { horaId: 11, grupoId: 1, materiaId: 4, docenteId: 4 } });
+            await Modulo.findOrCreate({ where: { horaId: 12, grupoId: 1, materiaId: 5, docenteId: 5 } });
         }
     },
     sequelize,

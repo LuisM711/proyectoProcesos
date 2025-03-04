@@ -33,13 +33,16 @@ module.exports = () => {
     router.put('/grupo/:id', gruposController.putGrupo);
     router.delete('/grupo/:id', gruposController.deleteGrupo);
 
+    router.get('/getRoles', generalController.getRoles);
+
     router.get('/materias', materiasController.getMaterias);
     router.get('/materiasActivas', materiasController.getMateriasActivas);
     router.post('/materia', materiasController.postMateria);
     router.put('/materia/:id', materiasController.putMateria);
     router.delete('/materia/:id', materiasController.deleteMateria);
 
-    router.get('/modulos', modulosController.getModulos);
+    router.get('/modulos/:groupId', modulosController.getModuloByGroup);
+
     router.post('/modulo', modulosController.postModulo);
     router.put('/modulo/:id', modulosController.putModulo);
     router.delete('/modulo/:id', modulosController.deleteModulo);

@@ -1,4 +1,4 @@
-const DocuenteModel = require('../models/Docente.js');
+const DocenteModel = require('../models/Docente.js');
 const ModuloModel = require('../models/Modulo.js');
 const GrupoModel = require('../models/Grupo.js');
 const MateriaModel = require('../models/Materia.js');
@@ -23,7 +23,7 @@ module.exports.getModulos = async (req, res) => {
                         as: 'materia'
                     },
                     {
-                        model: DocuenteModel,
+                        model: DocenteModel,
                         as: 'docente'
                     }
                 ]
@@ -76,4 +76,33 @@ module.exports.deleteModulo = async (req, res) => {
     }
 }
 
-
+module.exports.getModuloByGroup = async (req, res) => {
+    try {
+        const modulos = await ModuloModel.findAll({
+            where: {
+                grupoId: req.params.groupId
+            },
+            include: [
+                {
+                    model: HoraModel,
+                    as: 'hora'
+                },
+                {
+                    model: GrupoModel,
+                    as: 'grupo'
+                },
+                {
+                    model: MateriaModel,
+                    as: 'materia'
+                },
+                {
+                    model: DocenteModel,
+                    as: 'docente'
+                }
+            ]
+        });
+        return res.json(modulos);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}

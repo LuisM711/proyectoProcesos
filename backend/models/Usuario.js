@@ -52,6 +52,7 @@ Usuario.init({
     hooks: {
         afterSync: async (options) => {
             await Usuario.findOrCreate({ where: { nombre: 'Luis Mario', apellido: 'López Reyes', numeroDeCuenta: '18002188', password: 'Luis1234', grupoId: 1, rolId: 1 } });
+            await Usuario.findOrCreate({ where: { nombre: 'Juan', apellido: 'Perez', numeroDeCuenta: '12345678', password: '12345678', grupoId: 1, rolId: 1 } });
         }
     },
     sequelize,

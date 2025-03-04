@@ -2,7 +2,7 @@ mat-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2e3b4e; /* Fondo oscuro */
+    background-color: #082154;
     color: white;
 }
 

@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>
+    {{ isEdit ? 'Editar usuario' : 'Crear nuevo usuario' }}
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="editForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="apellido">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Número de cuenta</mat-label>
+        <input matInput formControlName="numeroDeCuenta">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="rolId">
+          <mat-option *ngFor="let rol of roles" [value]="rol.id">{{ rol.nombre }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="grupoId">
+          <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombreGrupo }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button *ngIf="isEdit" mat-button (click)="deleteUser()">Deshabilitar</button>
+    <button mat-button (click)="closeDialog()">Cancelar</button>
+    <button mat-button (click)="saveChanges()" color="primary" [disabled]="!editForm.valid">
+      {{ isEdit ? 'Guardar' : 'Crear' }}
+    </button>
+  </mat-dialog-actions>
