@@ -1,1 +1,15 @@
-<p>home works!</p>
+<div class="slider-container"
+     (mouseenter)="stopAutoSlide()"
+     (mouseleave)="resumeAutoSlide()">
+
+  <button mat-icon-button class="prev-btn" (click)="prevImage()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <img [src]="images[currentIndex]" class="slider-image" />
+
+  <button mat-icon-button class="next-btn" (click)="nextImage()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+</div>
