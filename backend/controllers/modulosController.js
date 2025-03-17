@@ -61,10 +61,8 @@ module.exports.putModulo = async (req, res) => {
 
 module.exports.deleteModulo = async (req, res) => {
     try {
-        //isActive false
-        const modulo = await ModuloModel.update({
-            isActive: false
-        }, {
+        //destroy
+        const modulo = await ModuloModel.destroy({
             where: {
                 id: req.params.id
             }
@@ -99,6 +97,9 @@ module.exports.getModuloByGroup = async (req, res) => {
                     model: DocenteModel,
                     as: 'docente'
                 }
+            ],
+            order: [
+                ['hora', 'horaInicio', 'ASC']
             ]
         });
         return res.json(modulos);

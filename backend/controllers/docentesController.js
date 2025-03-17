@@ -3,7 +3,13 @@ const DocenteModel = require('../models/Docente.js');
 
 module.exports.getDocentes = async (req, res) => {
     try {
-        const docentes = await DocenteModel.findAll();
+        const docentes = await DocenteModel.findAll(
+            {
+                order: [
+                    ['isActive', 'DESC']
+                ]
+            }
+        );
         return res.json(docentes);
     } catch (error) {
         return res.status(400).json({ message: error.message });

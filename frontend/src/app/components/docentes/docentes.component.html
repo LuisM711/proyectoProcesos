@@ -1,8 +1,34 @@
 <div class="adminContainer">
     <app-sidebar></app-sidebar>
+  
     <div class="container">
-
-        <h1>docentes works</h1>
+      <h1>Gestión de docentes</h1>
+      <button mat-raised-button color="primary" (click)="openDialog()">Agregar docente</button>
+      <table mat-table [dataSource]="docentes" class="mat-elevation-z8">
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let docente" class="td" [class.disabled]="!docente.isActive" (click)="openDialog(docente)">
+            {{ docente.nombre }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="apellido">
+          <th mat-header-cell *matHeaderCellDef> Apellido </th>
+          <td mat-cell *matCellDef="let docente" class="td" [class.disabled]="!docente.isActive" (click)="openDialog(docente)">
+            {{ docente.apellido }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let docente">
+            <button mat-button (click)="toggleDocente(docente)">{{ docente.isActive ? 'Deshabilitar' : 'Habilitar' }}</button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
-
-</div>
+  </div>
+  

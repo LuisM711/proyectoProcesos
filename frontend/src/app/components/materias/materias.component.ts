@@ -11,71 +11,71 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-docentes',
+  selector: 'app-materias',
   standalone: true,
   imports: [CommonModule, MatTableModule, MatButtonModule, MatDialogModule, FormsModule, SidebarComponent, MatFormFieldModule, MatInputModule],
-  templateUrl: './docentes.component.html',
-  styleUrl: './docentes.component.css'
+  templateUrl: './materias.component.html',
+  styleUrl: './materias.component.css'
 })
-export class DocentesComponent implements OnInit {
+export class MateriasComponent implements OnInit {
   private appService = inject(AppService);
   private dialog = inject(MatDialog);
   
-  docentes: any[] = [];
-  displayedColumns: string[] = ['nombre', 'apellido', 'acciones'];
+  materias: any[] = [];
+  displayedColumns: string[] = ['nombre', 'acciones'];
 
   ngOnInit() {
-    this.loadDocentes();
+    this.loadMaterias();
   }
 
-  loadDocentes() {
-    this.appService.getDocentes().subscribe((data) => {
-      this.docentes = data;
+  loadMaterias() {
+    this.appService.getMaterias().subscribe((data) => {
+      this.materias = data;
     });
   }
 
-  openDialog(docente?: any) {
-    const dialogRef = this.dialog.open(DocenteDialogComponent, {
+  openDialog(materia?: any) {
+    const dialogRef = this.dialog.open(MateriaDialogComponent, {
       width: '500px',
-      data: docente ? { ...docente } : { nombre: '', apellido: '' }
+      data: materia ? { ...materia } : { nombre: '' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (docente) {
-          this.appService.updateDocente(result).subscribe(() => this.loadDocentes());
+        if (materia) {
+          this.appService.updateMateria(result).subscribe(() => this.loadMaterias());
+          
         } else {
-          this.appService.addDocente(result).subscribe(() => this.loadDocentes());
+          this.appService.addMateria(result).subscribe(() => this.loadMaterias());
         }
       }
     });
   }
 
-  toggleDocente(docente: any) {
-    docente.isActive = !docente.isActive;
-    this.appService.updateDocente(docente).subscribe(() => this.loadDocentes());
+  toggleMateria(materia: any) {
+    materia.isActive = !materia.isActive
+    this.appService.updateMateria(materia).subscribe(() => this.loadMaterias());
+  
+
+    
   }
 }
 
 @Component({
-  selector: 'app-docente-dialog',
+  selector: 'app-materia-dialog',
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule],
   template: `
-    <h2 mat-dialog-title>{{ data.id ? 'Editar docente' : 'Agregar docente' }}</h2>
+    <h2 mat-dialog-title>{{ data.id ? 'Editar materia' : 'Agregar materia' }}</h2>
     <div mat-dialog-content>
       <mat-form-field appearance="fill" class="wide-field">
         <mat-label>Nombre</mat-label>
         <input matInput [(ngModel)]="data.nombre" name="nombre" required />
       </mat-form-field>
-      <mat-form-field appearance="fill" class="wide-field">
-        <mat-label>Apellido</mat-label>
-        <input matInput [(ngModel)]="data.apellido" name="apellido" required />
-      </mat-form-field>
     </div>
     <div mat-dialog-actions>
       <button mat-button (click)="onNoClick()">Cancelar</button>
-      <button mat-button (click)="onSave()" color="primary" [disabled]="!data.nombre || !data.apellido">Guardar</button>
+      <button mat-button (click)="onSave()" color="primary" [disabled]="!data.nombre">Guardar</button>
     </div>
   `,
   styles: [
@@ -85,9 +85,9 @@ export class DocentesComponent implements OnInit {
     }`
   ]
 })
-export class DocenteDialogComponent {
+export class MateriaDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<DocenteDialogComponent>,
+    public dialogRef: MatDialogRef<MateriaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 

@@ -2,7 +2,13 @@ const MateriaModel = require('../models/Materia.js');
 
 module.exports.getMaterias = async (req, res) => {
     try {
-        const materias = await MateriaModel.findAll();
+        const materias = await MateriaModel.findAll(
+            {
+                order: [
+                    ['isActive', 'DESC']
+                ]
+            }
+        );
         return res.json(materias);
     } catch (error) {
         return res.status(400).json({ message: error.message });

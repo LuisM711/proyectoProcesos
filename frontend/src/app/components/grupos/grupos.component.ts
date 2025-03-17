@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../app.service';
-import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { MatInputModule } from '@angular/material/input';
@@ -14,15 +14,13 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-grupos',
   standalone: true,
   imports: [
-    MatIcon,
+    MatIconModule,
     CommonModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatOption,
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,
-    MatLabel,
     SidebarComponent,
     MatInputModule,
     MatButtonModule
@@ -43,36 +41,22 @@ export class GruposComponent {
   }
 
   cargarDatosIniciales(): void {
-    this.appService.getGrupos().subscribe((grupos) => {
-      this.grupos = grupos;
-    });
-    this.appService.getHoras().subscribe((horas) => {
-      this.horas = horas;
-    });
-    this.appService.getMaterias().subscribe((materias) => {
-      this.materias = materias;
-    });
-    this.appService.getDocentes().subscribe((docentes) => {
-      this.docentes = docentes;
-    });
+    this.appService.getGrupos().subscribe((grupos) => (this.grupos = grupos));
+    this.appService.getHoras().subscribe((horas) => (this.horas = horas));
+    this.appService.getMaterias().subscribe((materias) => (this.materias = materias));
+    this.appService.getDocentes().subscribe((docentes) => (this.docentes = docentes));
   }
-  todosLosCamposLlenos(): boolean {
-    return this.modulos.every(modulo => 
-      modulo.horaId !== null && 
-      modulo.materiaId !== null && 
-      modulo.docenteId !== null
-    );
-  }
-  onHoraChange(modulo: any, horaId: number): void {
-    modulo.horaId = horaId;
-    this.actualizarModulo(modulo);
-  }
+
   onGrupoChange(grupoId: number): void {
     this.grupoSeleccionado = grupoId;
     this.appService.getModulosByGroup(grupoId).subscribe((modulos) => {
-      console.log(modulos);
       this.modulos = modulos;
     });
+  }
+
+  onHoraChange(modulo: any, horaId: number): void {
+    modulo.horaId = horaId;
+    this.actualizarModulo(modulo);
   }
 
   onMateriaChange(modulo: any, materiaId: number): void {
@@ -86,9 +70,11 @@ export class GruposComponent {
   }
 
   actualizarModulo(modulo: any): void {
-    // this.appService.actualizarModulo(modulo).subscribe(() => {
-    //   console.log('Módulo actualizado:', modulo);
-    // });
+    if (modulo.id) {
+      this.appService.updateModulo(modulo).subscribe(() => {
+        console.log('Módulo actualizado:', modulo);
+      });
+    }
   }
 
   agregarModulo(): void {
@@ -107,11 +93,31 @@ export class GruposComponent {
   }
 
   eliminarModulo(index: number): void {
-    this.modulos = this.modulos.filter((_, i) => i !== index);
+    const modulo = this.modulos[index];
+    if (modulo.id) {
+      this.appService.deleteModulo(modulo.id).subscribe(() => {
+        this.modulos = this.modulos.filter((_, i) => i !== index);
+      });
+    } else {
+      this.modulos = this.modulos.filter((_, i) => i !== index);
+    }
   }
 
   guardarCambios(): void {
-   
-    console.log(this.modulos);
+    const modulosNuevos = this.modulos.filter((m) => !m.id);
+    
+    modulosNuevos.forEach((modulo) => {
+      this.appService.addModulo(modulo).subscribe((moduloGuardado) => {
+        modulo.id = moduloGuardado.id;
+      });
+    });
+
+    console.log('Cambios guardados:', this.modulos);
+  }
+
+  todosLosCamposLlenos(): boolean {
+    return this.modulos.every(
+      (modulo) => modulo.horaId !== null && modulo.materiaId !== null && modulo.docenteId !== null
+    );
   }
 }

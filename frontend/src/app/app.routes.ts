@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { MateriasComponent } from './components/materias/materias.component';
 import { GruposComponent } from './components/grupos/grupos.component';
 import { DocentesComponent } from './components/docentes/docentes.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
@@ -19,6 +20,7 @@ export const routes: Routes = [
         path: 'admin', children: [
             { path: '', component: AdminComponent, canActivate: [verificarGuardAdmin] },
             { path: 'usuarios', component: UsuariosComponent, canActivate: [verificarGuardAdmin] },
+            { path: 'materias', component: MateriasComponent, canActivate: [verificarGuardAdmin] },
             { path: 'grupos', component: GruposComponent, canActivate: [verificarGuardAdmin] },
             { path: 'docentes', component: DocentesComponent, canActivate: [verificarGuardAdmin] },
             { path: 'reportes', component: ReportesComponent, canActivate: [verificarGuardAdmin] }
