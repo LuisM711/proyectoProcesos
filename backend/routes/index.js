@@ -8,7 +8,9 @@ const docentesController = require('../controllers/docentesController');
 const gruposController = require('../controllers/gruposController');
 const materiasController = require('../controllers/materiasController');
 const modulosController = require('../controllers/modulosController');
+const registroController = require('../controllers/registroController');
 const generalController = require('../controllers/generalController');
+
 
 module.exports = () => {
     router.get('/', (req, res) => {
@@ -53,6 +55,15 @@ module.exports = () => {
     router.put('/usuario/:id', usuariosController.putUsuario);
     router.delete('/usuario/:id', usuariosController.deleteUsuario);
 
+    router.get('/registros', registroController.getRegistros);
+    router.get('/registros/:id', registroController.getRegistroById);
+    router.post('/registros', registroController.postRegistro);
+    router.put('/registros/:id', registroController.putRegistro);
+    router.delete('/registros/:id', registroController.deleteRegistro);
+    router.get('/registros/fecha/:fecha', registroController.getRegistrosByFecha);
+    router.get('/registros/modulo/:moduloId', registroController.getRegistrosByModulo);
+    router.get('/registros/grupo/:grupoId', registroController.getRegistrosByGrupo);
+    router.get('/modulos/:grupoId/registros-usuario', registroController.getModulosWithUserRegistros);
 
     return router;
 }

@@ -106,8 +106,44 @@ export class AppService {
   deleteModulo(id: number): Observable<any> {
     return this.http.delete<any>(`${environment.backendUrl}/modulo/${id}`, { withCredentials: true });
   }
-
-
+  /**
+   * router.get('/registros', registroController.getRegistros);
+    router.get('/registros/:id', registroController.getRegistroById);
+    router.post('/registros', registroController.postRegistro);
+    router.put('/registros/:id', registroController.putRegistro);
+    router.delete('/registros/:id', registroController.deleteRegistro);
+    router.get('/registros/fecha/:fecha', registroController.getRegistrosByFecha);
+    router.get('/registros/modulo/:moduloId', registroController.getRegistrosByModulo);
+    router.get('/registros/grupo/:grupoId', registroController.getRegistrosByGrupo);
+    router.get('/registros/grupo/:grupoId/usuario/:usuarioId', registroController.getRegistroByGrupoAndUser);
+   */
+  getRegistros(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/registros`, { withCredentials: true });
+  }
+  getRegistroById(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/registros/${id}`, { withCredentials: true });
+  }
+  addRegistro(data: any): Observable<any> {
+    return this.http.post<any>(`${environment.backendUrl}/registros`, data, { withCredentials: true });
+  }
+  updateRegistro(data: any): Observable<any> {
+    return this.http.put<any>(`${environment.backendUrl}/registros/${data.id}`, data, { withCredentials: true });
+  }
+  deleteRegistro(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.backendUrl}/registros/${id}`, { withCredentials: true });
+  }
+  getRegistrosByFecha(fecha: string): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/registros/fecha/${fecha}`, { withCredentials: true });
+  }
+  getRegistrosByModulo(moduloId: number): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/registros/modulo/${moduloId}`, { withCredentials: true });
+  }
+  getRegistrosByGrupo(grupoId: number): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/registros/grupo/${grupoId}`, { withCredentials: true });
+  }
+  getModulosWithUserRegistros(grupoId: number, fecha: string): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/modulos/${grupoId}/registros-usuario?fecha=${fecha}`, { withCredentials: true });
+}
 
 
 }

@@ -9,6 +9,7 @@ import { MateriasComponent } from './components/materias/materias.component';
 import { GruposComponent } from './components/grupos/grupos.component';
 import { DocentesComponent } from './components/docentes/docentes.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
+import { RegistrarAsistenciaComponent } from './components/registrar-asistencia/registrar-asistencia.component';
 
 import { verificarGuard, verificarGuardAdmin } from './verificar.guard';
 
@@ -16,6 +17,7 @@ export const routes: Routes = [
 
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'registrar-asistencia', component: RegistrarAsistenciaComponent, canActivate: [verificarGuard] },
     {
         path: 'admin', children: [
             { path: '', component: AdminComponent, canActivate: [verificarGuardAdmin] },

@@ -1,0 +1,55 @@
+<div class="container">
+    <h1>Registrar asistencia</h1>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccionar grupo</mat-label>
+      <mat-select [(ngModel)]="selectedGrupo" (selectionChange)="onGrupoChange()">
+        <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+          {{ grupo.nombreGrupo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccionar fecha</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onDateChange()" [max]="maxDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  
+    <table mat-table [dataSource]="modulos" class="mat-elevation-z8">
+      <ng-container matColumnDef="materia">
+        <th mat-header-cell *matHeaderCellDef> Materia </th>
+        <td mat-cell *matCellDef="let modulo" [style.backgroundColor]="getRowColor(modulo)">
+          {{ modulo.materia.nombre }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let modulo" [style.backgroundColor]="getRowColor(modulo)">
+          {{ modulo.hora.horaInicio }} - {{ modulo.hora.horaFin }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="docente">
+        <th mat-header-cell *matHeaderCellDef> Docente </th>
+        <td mat-cell *matCellDef="let modulo" [style.backgroundColor]="getRowColor(modulo)">
+          {{ modulo.docente.nombre }} {{ modulo.docente.apellido }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let modulo" [style.backgroundColor]="getRowColor(modulo)">
+          <button mat-button (click)="toggleAsistencia(modulo)">
+            <mat-icon>{{ getRowColor(modulo) === 'lightgreen' ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ getRowColor(modulo) === 'lightgreen' ? 'Impartida' : 'No Impartida' }}
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
