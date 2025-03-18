@@ -212,12 +212,23 @@ module.exports.deleteRegistro = async (req, res) => {
 
 module.exports.getRegistrosByGrupo = async (req, res) => {
     try {
+        const grupoId = req.params.grupoId; // Obtener el ID del grupo desde los parámetros de la ruta
+        const fecha = req.query.fecha; // Obtener la fecha desde el query parameter
+
+        // Validar que la fecha esté presente
+        if (!fecha) {
+            return res.status(400).json({ message: 'La fecha es requerida' });
+        }
+
         const registros = await RegistroModel.findAll({
+            where: {
+                fecha: fecha // Filtrar por fecha
+            },
             include: [
                 {
                     model: ModuloModel,
                     as: 'modulo',
-                    where: { grupoId: req.params.grupoId },
+                    where: { grupoId: grupoId }, // Filtrar por grupo
                     include: [
                         {
                             model: HoraModel,
@@ -239,7 +250,13 @@ module.exports.getRegistrosByGrupo = async (req, res) => {
                 },
                 {
                     model: UsuarioModel,
-                    as: 'usuario'
+                    as: 'usuario',
+                    include: [
+                        {
+                            model: RolModel,
+                            as: 'rol'
+                        }
+                    ]
                 }
             ]
         });

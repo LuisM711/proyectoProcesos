@@ -1,8 +1,53 @@
 <div class="adminContainer">
     <app-sidebar></app-sidebar>
     <div class="container">
-
-        <h1>reportes works</h1>
+      <h1>Reportes de asistencia</h1>
+        <mat-form-field appearance="fill">
+        <mat-label>Seleccionar grupo</mat-label>
+        <mat-select [(ngModel)]="selectedGrupo" (selectionChange)="loadModulosWithRegistros()">
+          <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+            {{ grupo.nombreGrupo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+        <mat-form-field appearance="fill">
+        <mat-label>Seleccionar fecha</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" (dateChange)="loadModulosWithRegistros()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="materia">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Materia </th>
+          <td mat-cell *matCellDef="let registro"> {{ registro.modulo.materia.nombre }} </td>
+        </ng-container>
+          <ng-container matColumnDef="hora">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora </th>
+          <td mat-cell *matCellDef="let registro"> {{ registro.modulo.hora.horaInicio }} - {{ registro.modulo.hora.horaFin }} </td>
+        </ng-container>
+          <ng-container matColumnDef="docente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Docente </th>
+          <td mat-cell *matCellDef="let registro"> {{ registro.modulo.docente.nombre }} {{ registro.modulo.docente.apellido }} </td>
+        </ng-container>
+          <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+          <td mat-cell *matCellDef="let registro">
+            <span [style.color]="getEstadoColor(registro.impartida)">
+              {{ getEstado(registro.impartida) }}
+            </span>
+          </td>
+        </ng-container>
+          <ng-container matColumnDef="usuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+          <td mat-cell *matCellDef="let registro"> {{ registro.usuario.nombre }} {{ registro.usuario.apellido }} </td>
+        </ng-container>
+          <ng-container matColumnDef="rol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+          <td mat-cell *matCellDef="let registro"> {{ registro.usuario.rol.nombre }} </td>
+        </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <!-- <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator> -->
     </div>
-
-</div>
+  </div>

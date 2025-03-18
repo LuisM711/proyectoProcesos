@@ -138,12 +138,12 @@ export class AppService {
   getRegistrosByModulo(moduloId: number): Observable<any> {
     return this.http.get<any>(`${environment.backendUrl}/registros/modulo/${moduloId}`, { withCredentials: true });
   }
-  getRegistrosByGrupo(grupoId: number): Observable<any> {
-    return this.http.get<any>(`${environment.backendUrl}/registros/grupo/${grupoId}`, { withCredentials: true });
+  getRegistrosByGrupo(grupoId: number, fecha: string): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/registros/grupo/${grupoId}?fecha=${fecha}`, { withCredentials: true });
   }
   getModulosWithUserRegistros(grupoId: number, fecha: string): Observable<any> {
     return this.http.get<any>(`${environment.backendUrl}/modulos/${grupoId}/registros-usuario?fecha=${fecha}`, { withCredentials: true });
-}
+  }
 
 
 }
