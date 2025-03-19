@@ -1,4 +1,4 @@
-const DocenteModel = require('../models/Docente.js');
+const DocenteModel = require('../models/Usuario.js');
 const ModuloModel = require('../models/Modulo.js');
 const GrupoModel = require('../models/Grupo.js');
 const MateriaModel = require('../models/Materia.js');
@@ -24,7 +24,11 @@ module.exports.getModulos = async (req, res) => {
                     },
                     {
                         model: DocenteModel,
-                        as: 'docente'
+                        as: 'docente',
+                        where: {
+                            rolId: 4
+                        }
+
                     }
                 ]
             }
@@ -95,7 +99,10 @@ module.exports.getModuloByGroup = async (req, res) => {
                 },
                 {
                     model: DocenteModel,
-                    as: 'docente'
+                    as: 'docente',
+                    where: {
+                        rolId: 4
+                    }
                 }
             ],
             order: [

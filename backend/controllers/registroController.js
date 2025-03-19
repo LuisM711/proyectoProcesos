@@ -4,7 +4,7 @@ const UsuarioModel = require('../models/Usuario.js');
 const HoraModel = require('../models/Hora.js');
 const GrupoModel = require('../models/Grupo.js');
 const MateriaModel = require('../models/Materia.js');
-const DocenteModel = require('../models/Docente.js');
+const DocenteModel = require('../models/Usuario.js');
 const RolModel = require('../models/Rol.js');
 
 module.exports.getRegistros = async (req, res) => {
@@ -29,7 +29,10 @@ module.exports.getRegistros = async (req, res) => {
                         },
                         {
                             model: DocenteModel,
-                            as: 'docente'
+                            as: 'docente',
+                            where: {
+                                rolId: 4
+                            }
                         }
                     ]
                 },
@@ -73,7 +76,10 @@ module.exports.getRegistroById = async (req, res) => {
                         },
                         {
                             model: DocenteModel,
-                            as: 'docente'
+                            as: 'docente',
+                            where: {
+                                rolId: 4
+                            }
                         }
                     ]
                 },
@@ -120,7 +126,10 @@ module.exports.getRegistrosByFecha = async (req, res) => {
                         },
                         {
                             model: DocenteModel,
-                            as: 'docente'
+                            as: 'docente',
+                            where: {
+                                rolId: 4
+                            }
                         }
                     ]
                 },
@@ -178,7 +187,10 @@ module.exports.putRegistro = async (req, res) => {
                             },
                             {
                                 model: DocenteModel,
-                                as: 'docente'
+                                as: 'docente',
+                                where: {
+                                    rolId: 4
+                                }
                             }
                         ]
                     },
@@ -244,7 +256,10 @@ module.exports.getRegistrosByGrupo = async (req, res) => {
                         },
                         {
                             model: DocenteModel,
-                            as: 'docente'
+                            as: 'docente',
+                            where: {
+                                rolId: 4
+                            }
                         }
                     ]
                 },
@@ -290,7 +305,10 @@ module.exports.getModulosWithUserRegistros = async (req, res) => {
                 },
                 {
                     model: DocenteModel,
-                    as: 'docente'
+                    as: 'docente',
+                    where: {
+                        rolId: 4
+                    }
                 }
             ]
         });
@@ -347,7 +365,10 @@ module.exports.getRegistrosByModulo = async (req, res) => {
                         },
                         {
                             model: DocenteModel,
-                            as: 'docente'
+                            as: 'docente',
+                            where: {
+                                rolId: 4
+                            }
                         }
                     ]
                 },

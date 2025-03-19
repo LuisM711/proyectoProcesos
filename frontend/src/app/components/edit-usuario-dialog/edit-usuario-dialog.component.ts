@@ -5,7 +5,7 @@ import { AppService } from '../../app.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelect } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatOptionModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -16,7 +16,10 @@ import { CommonModule, NgForOf } from '@angular/common';
   selector: 'app-edit-usuario-dialog',
   standalone: true,
   templateUrl: './edit-usuario-dialog.component.html',
-  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelect, MatPaginatorModule, MatOptionModule, MatCheckboxModule, ReactiveFormsModule, NgForOf, CommonModule],
+  imports: [
+    MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule,
+    MatPaginatorModule, MatOptionModule, MatCheckboxModule, ReactiveFormsModule, NgForOf, CommonModule
+  ],
   styleUrls: ['./edit-usuario-dialog.component.css']
 })
 export class EditUsuarioDialogComponent {
@@ -24,6 +27,7 @@ export class EditUsuarioDialogComponent {
   roles: any[] = [];
   grupos: any[] = [];
   isEdit: boolean;
+  jefeGpoRolId: number = 2; // ID del rol "JefeGPO"
 
   constructor(
     private fb: FormBuilder,
@@ -38,9 +42,9 @@ export class EditUsuarioDialogComponent {
       nombre: [data.nombre || '', Validators.required],
       apellido: [data.apellido || '', Validators.required],
       numeroDeCuenta: [data.numeroDeCuenta || '', Validators.required],
-      password: [data.password || '', Validators.required],
-      grupoId: [data.grupoId || '', Validators.required],
+      password: [data.numeroDeCuenta || '', Validators.required],
       rolId: [data.rolId || '', Validators.required],
+      grupoId: [data.usuarioGrupo?.grupoId || null],
       isActive: [data.isActive || false, Validators.required]
     });
 
@@ -50,6 +54,26 @@ export class EditUsuarioDialogComponent {
     this.appService.getGrupos().subscribe(grupos => {
       this.grupos = grupos;
     });
+
+    // Escucha cambios en el select de rol para actualizar la validación de grupoId
+    this.editForm.get('rolId')?.valueChanges.subscribe(rolId => {
+      const grupoControl = this.editForm.get('grupoId');
+      if (rolId === this.jefeGpoRolId) {
+        grupoControl?.setValidators([Validators.required]); // Hace obligatorio el grupo
+      } else {
+        grupoControl?.clearValidators(); // Elimina validadores si no es JefeGPO
+        grupoControl?.setValue(null); // Limpia el campo
+      }
+      grupoControl?.updateValueAndValidity(); // Refresca la validación
+    });
+  }
+
+  isJefeGpoSelected(): boolean {
+    return this.editForm.get('rolId')?.value === this.jefeGpoRolId;
+  }
+
+  isSaveDisabled(): boolean {
+    return this.editForm.invalid;
   }
 
   saveChanges(): void {
@@ -76,6 +100,5 @@ export class EditUsuarioDialogComponent {
         this.dialogRef.close(true);
       });
     }
-
   }
 }

@@ -19,18 +19,13 @@ Rol.init({
             await Rol.findOrCreate({ where: { nombre: 'admin' } });
             await Rol.findOrCreate({ where: { nombre: 'jefegpo' } });
             await Rol.findOrCreate({ where: { nombre: 'checador' } });
-            await Rol.findOrCreate({ where: { nombre: 'profesor' } });
+            await Rol.findOrCreate({ where: { nombre: 'docente' } });
         }
     },
     sequelize,
     modelName: 'rol',
-    tableName:'roles',
+    tableName: 'roles',
     timestamps: false,
-    //foreign key
-    references: {
-        model: 'usuario',
-        key: 'rol'
-    }
 });
 
 module.exports = Rol;

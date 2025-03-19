@@ -34,7 +34,6 @@ Grupo.init({
         afterSync: async (options) => {
             await Grupo.findOrCreate({ where: { grado: 4, grupo: 2 } });
             await Grupo.findOrCreate({ where: { grado: 4, grupo: 1 } });
-            
         }
     },
     sequelize,
@@ -48,7 +47,6 @@ Grupo.init({
             name: 'gruposIndex'
         }
     ]
-
 });
 
 module.exports = Grupo;

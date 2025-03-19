@@ -1,15 +1,17 @@
-const DocenteModel = require('../models/Docente.js');
+const { where } = require('sequelize');
+const DocenteModel = require('../models/Usuario.js');
 
 
 module.exports.getDocentes = async (req, res) => {
     try {
-        const docentes = await DocenteModel.findAll(
-            {
-                order: [
-                    ['isActive', 'DESC']
-                ]
-            }
-        );
+        const docentes = await DocenteModel.findAll({
+            where: {
+                rolId: 4
+            },
+            order: [
+                ['isActive', 'DESC']
+            ]
+        });
         return res.json(docentes);
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -18,8 +20,10 @@ module.exports.getDocentes = async (req, res) => {
 module.exports.getDocentesActivos = async (req, res) => {
     try {
         const docentes = await DocenteModel.findAll({
+
             where: {
-                isActive : true
+                isActive : true,
+                rolId: 4
             }
         });
         return res.json(docentes);
@@ -39,7 +43,8 @@ module.exports.putDocente = async (req, res) => {
     try {
         const docente = await DocenteModel.update(req.body, {
             where: {
-                id: req.params.id
+                id: req.params.id,
+                rolId: 4
             }
         });
         return res.json(docente);
@@ -54,7 +59,8 @@ module.exports.deleteDocente = async (req, res) => {
             isActive: false
         }, {
             where: {
-                id: req.params.id
+                id: req.params.id,
+                rolId: 4
             }
         });
         return res.json(docente);

@@ -21,7 +21,7 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class UsuariosComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['nombre', 'apellido', 'numeroDeCuenta', 'rol', 'grupo', 'isActive'];
+  displayedColumns: string[] = ['nombre', 'apellido', 'numeroDeCuenta', 'rol', 'isActive'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private appService: AppService, private dialog: MatDialog) {}

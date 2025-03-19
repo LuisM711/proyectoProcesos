@@ -3,7 +3,7 @@ const sequelize = require('../database.js');
 
 const Grupo = require('./Grupo.js');
 const Materia = require('./Materia.js');
-const Docente = require('./Docente.js');
+const Docente = require('./Usuario.js');
 
 const Hora = require('./Hora.js');
 

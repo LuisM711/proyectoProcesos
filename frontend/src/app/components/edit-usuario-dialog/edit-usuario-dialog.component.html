@@ -30,7 +30,7 @@
         </mat-select>
       </mat-form-field>
   
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" *ngIf="isJefeGpoSelected()">
         <mat-label>Grupo</mat-label>
         <mat-select formControlName="grupoId">
           <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nombreGrupo }}</mat-option>
