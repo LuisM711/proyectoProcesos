@@ -11,11 +11,31 @@
     color: white;
   }
   
-  /* Estilos para las filas */
   mat-row {
     transition: background-color 0.3s ease;
   }
   
   mat-row:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Efecto hover */
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  .container {
+    padding: 20px;
+  }
+  
+  .no-grupos-card {
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+  }
+  
+  .no-grupos-card h2 {
+    font-size: 24px;
+    color: #d32f2f;
+  }
+  
+  .no-grupos-card p {
+    font-size: 18px;
+    color: #666;
   }

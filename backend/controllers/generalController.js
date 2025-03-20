@@ -3,7 +3,6 @@ const ModuloModel = require('../models/Modulo.js');
 const HoraModel = require('../models/Hora.js');
 const RolModel = require('../models/Rol.js');
 
-//verificar si el docente tiene ocupado Modulo.hora, ya que un docente no puede tener dos modulos a la misma hora
 module.exports.verificarHoraDocente = async (req, res) => {
     try {
         const { docenteId, horaId } = req.body;
@@ -20,7 +19,6 @@ module.exports.verificarHoraDocente = async (req, res) => {
 }
 
 
-//verificar si el grupo tiene ocupado Modulo.hora, ya que un grupo no puede tener dos modulos a la misma hora
 module.exports.verificarHoraGrupo = async (req, res) => {
     try {
         const { grupoId, horaId } = req.body;

@@ -55,16 +55,15 @@ export class EditUsuarioDialogComponent {
       this.grupos = grupos;
     });
 
-    // Escucha cambios en el select de rol para actualizar la validación de grupoId
     this.editForm.get('rolId')?.valueChanges.subscribe(rolId => {
       const grupoControl = this.editForm.get('grupoId');
       if (rolId === this.jefeGpoRolId) {
-        grupoControl?.setValidators([Validators.required]); // Hace obligatorio el grupo
+        grupoControl?.setValidators([Validators.required]);
       } else {
-        grupoControl?.clearValidators(); // Elimina validadores si no es JefeGPO
-        grupoControl?.setValue(null); // Limpia el campo
+        grupoControl?.clearValidators();
+        grupoControl?.setValue(null);
       }
-      grupoControl?.updateValueAndValidity(); // Refresca la validación
+      grupoControl?.updateValueAndValidity();
     });
   }
 

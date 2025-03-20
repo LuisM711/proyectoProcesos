@@ -224,8 +224,8 @@ module.exports.deleteRegistro = async (req, res) => {
 
 module.exports.getRegistrosByGrupo = async (req, res) => {
     try {
-        const grupoId = req.params.grupoId; // Obtener el ID del grupo desde los parámetros de la ruta
-        const fecha = req.query.fecha; // Obtener la fecha desde el query parameter
+        const grupoId = req.params.grupoId;
+        const fecha = req.query.fecha;
 
         // Validar que la fecha esté presente
         if (!fecha) {
@@ -234,13 +234,13 @@ module.exports.getRegistrosByGrupo = async (req, res) => {
 
         const registros = await RegistroModel.findAll({
             where: {
-                fecha: fecha // Filtrar por fecha
+                fecha: fecha
             },
             include: [
                 {
                     model: ModuloModel,
                     as: 'modulo',
-                    where: { grupoId: grupoId }, // Filtrar por grupo
+                    where: { grupoId: grupoId },
                     include: [
                         {
                             model: HoraModel,
@@ -282,12 +282,11 @@ module.exports.getRegistrosByGrupo = async (req, res) => {
 };
 module.exports.getModulosWithUserRegistros = async (req, res) => {
     try {
-        const usuarioId = req.session.token.id; // ID del usuario logueado
+        const usuarioId = req.session.token.id;
         const grupoId = req.params.grupoId;
-        const fecha = req.query.fecha; // Obtener la fecha desde el query parameter
+        const fecha = req.query.fecha;
 
   
-        // Obtener todos los módulos del grupo
         const modulos = await ModuloModel.findAll({
             where: { grupoId: grupoId },
             include: [
@@ -313,11 +312,10 @@ module.exports.getModulosWithUserRegistros = async (req, res) => {
             ]
         });
 
-        // Obtener los registros del usuario logueado para estos módulos y la fecha seleccionada
         const registros = await RegistroModel.findAll({
             where: {
                 usuarioId: usuarioId,
-                fecha: fecha // Filtrar por fecha
+                fecha: fecha
             },
             include: [
                 {
@@ -328,12 +326,11 @@ module.exports.getModulosWithUserRegistros = async (req, res) => {
             ]
         });
 
-        // Combinar módulos con los registros del usuario
         const modulosWithRegistros = modulos.map(modulo => {
             const registro = registros.find(r => r.moduloId === modulo.id);
             return {
                 ...modulo.toJSON(),
-                registro: registro || null // Si no hay registro, se devuelve null
+                registro: registro || null 
             };
         });
 

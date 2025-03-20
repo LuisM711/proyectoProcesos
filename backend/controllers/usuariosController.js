@@ -99,13 +99,23 @@ module.exports.putUsuario = async (req, res) => {
         return res.status(400).json({ message: error.message });
     }
 };
+module.exports.changePassword = async (req, res) => {
+    try {
+        const usuario = await UsuarioModel.update(
+            { password: req.body.password },
+            { where: { id: req.params.id } }
+        );
+
+        return res.json(usuario);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+};
 
 module.exports.deleteUsuario = async (req, res) => {
     try {
-        // Eliminar la relación en UsuarioGrupo si existe
         await UsuarioGrupoModel.destroy({ where: { usuarioId: req.params.id } });
 
-        // Marcar usuario como inactivo
         const usuario = await UsuarioModel.update(
             { isActive: false },
             { where: { id: req.params.id } }

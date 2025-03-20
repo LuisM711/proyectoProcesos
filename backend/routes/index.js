@@ -34,6 +34,7 @@ module.exports = () => {
     router.post('/grupo', gruposController.postGrupo);
     router.put('/grupo/:id', gruposController.putGrupo);
     router.delete('/grupo/:id', gruposController.deleteGrupo);
+    router.get('/gruposPermitidos', gruposController.getGruposPermitidos);
 
     router.get('/getRoles', generalController.getRoles);
 
@@ -54,6 +55,7 @@ module.exports = () => {
     router.post('/usuario', usuariosController.postUsuario);
     router.put('/usuario/:id', usuariosController.putUsuario);
     router.delete('/usuario/:id', usuariosController.deleteUsuario);
+    router.post('/changePassword/:id', usuariosController.changePassword);
 
     router.get('/registros', registroController.getRegistros);
     router.get('/registros/:id', registroController.getRegistroById);

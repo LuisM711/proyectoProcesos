@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-registrar-asistencia',
@@ -22,7 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButtonModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ],
   templateUrl: './registrar-asistencia.component.html',
   styleUrls: ['./registrar-asistencia.component.css']
@@ -40,7 +42,17 @@ export class RegistrarAsistenciaComponent {
   displayedColumns: string[] = ['materia', 'hora', 'docente', 'acciones'];
 
   ngOnInit() {
-    this.appService.getGrupos().subscribe((res: any) => {
+    // this.appService.getGruposPermitidos().subscribe((res: any) => {
+    //   console.log("Grupos permitidos");
+    //   console.log(res);
+    //   // this.grupos = res;
+    //   // if (this.grupos.length > 0) {
+    //   //   this.selectedGrupo = this.grupos[0].id;
+    //   //   this.loadModulosWithRegistros();
+    //   // }
+    // });
+
+    this.appService.getGruposPermitidos().subscribe((res: any) => {
       this.grupos = res;
       if (this.grupos.length > 0) {
         this.selectedGrupo = this.grupos[0].id;

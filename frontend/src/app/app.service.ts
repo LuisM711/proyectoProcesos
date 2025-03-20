@@ -27,10 +27,17 @@ export class AppService {
   getRoles(): Observable<any> {
     return this.http.get<any>(`${environment.backendUrl}/getRoles`, { withCredentials: true });
   }
-  //    router.get('/grupos', gruposController.getGrupos);
-  getGrupos(): Observable<any> {
-    return this.http.get<any>(`${environment.backendUrl}/grupos`, { withCredentials: true });
+  //    router.get('/materiasActivas', materiasController.getMateriasActivas);
+
+  getMateriasActivas(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/materiasActivas`, { withCredentials: true });
   }
+  //    router.get('/gruposActivos', gruposController.getGruposActivos);
+
+
+
+  //    router.get('/grupos', gruposController.getGrupos);
+
   //router.put('/usuario/:id', usuariosController.putUsuario);
   updateUsuario(data: any): Observable<any> {
     return this.http.put<any>(`${environment.backendUrl}/usuario/${data.id}`, data, { withCredentials: true });
@@ -144,6 +151,36 @@ export class AppService {
   getModulosWithUserRegistros(grupoId: number, fecha: string): Observable<any> {
     return this.http.get<any>(`${environment.backendUrl}/modulos/${grupoId}/registros-usuario?fecha=${fecha}`, { withCredentials: true });
   }
+  //    router.get('/gruposPermitidos', gruposController.getGruposPermitidos);
 
+  getGruposPermitidos(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/gruposPermitidos`, { withCredentials: true });
+  }
+  //    router.post('/changePassword/:id', usuariosController.changePassword);
+  changePassword(data: any): Observable<any> {
+    return this.http.post<any>(`${environment.backendUrl}/changePassword/${data.id}`, data, { withCredentials: true });
+  }
+  /**
+   * router.get('/grupos', gruposController.getGrupos);
+      router.get('/gruposActivos', gruposController.getGruposActivos);
+      router.post('/grupo', gruposController.postGrupo);
+      router.put('/grupo/:id', gruposController.putGrupo);
+      router.delete('/grupo/:id', gruposController.deleteGrupo);
+   */
+  getGrupos(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/grupos`, { withCredentials: true });
+  }
+  getGruposActivos(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/gruposActivos`, { withCredentials: true });
+  }
+  addGrupo(data: any): Observable<any> {
+    return this.http.post<any>(`${environment.backendUrl}/grupo`, data, { withCredentials: true });
+  }
+  updateGrupo(data: any): Observable<any> {
+    return this.http.put<any>(`${environment.backendUrl}/grupo/${data.id}`, data, { withCredentials: true });
+  }
+  deleteGrupo(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.backendUrl}/grupo/${id}`, { withCredentials: true });
+  }
 
 }

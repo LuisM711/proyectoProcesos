@@ -71,17 +71,20 @@ export class LoginComponent {
       return;
     }
 
-    // Actualizar la contraseña del usuario
     const updateData = {
       id: this.userData.id,
       password: newPassword
     };
 
-    this.appService.updateUsuario(updateData).subscribe(() => {
-      this.snackBar.open('Contraseña actualizada con éxito', 'Close', { duration: 3000 });
-      window.location.href = '/'; // Redirige al home después del cambio
-    }, () => {
-      this.snackBar.open('Error al actualizar contraseña', 'Close', { duration: 3000 });
-    });
+    this.appService.changePassword(updateData).subscribe(
+      (response) => {
+        if (response) {
+          this.snackBar.open('Contraseña actualizada', 'Close', { duration: 3000 });
+          window.location.href = '/';
+        } else {
+          this.snackBar.open('Error al actualizar la contraseña', 'Close', { duration: 3000 });
+        }
+      }
+    );
   }
 }

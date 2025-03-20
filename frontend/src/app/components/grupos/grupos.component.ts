@@ -41,10 +41,10 @@ export class GruposComponent {
   }
 
   cargarDatosIniciales(): void {
-    this.appService.getGrupos().subscribe((grupos) => (this.grupos = grupos));
+    this.appService.getGruposActivos().subscribe((grupos) => (this.grupos = grupos));
     this.appService.getHoras().subscribe((horas) => (this.horas = horas));
-    this.appService.getMaterias().subscribe((materias) => (this.materias = materias));
-    this.appService.getDocentes().subscribe((docentes) => (this.docentes = docentes));
+    this.appService.getMateriasActivas().subscribe((materias) => (this.materias = materias));
+    this.appService.getDocentesActivos().subscribe((docentes) => (this.docentes = docentes));
   }
 
   onGrupoChange(grupoId: number): void {
