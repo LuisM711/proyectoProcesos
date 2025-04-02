@@ -6,7 +6,8 @@ const GrupoModel = require('../models/Grupo.js');
 const MateriaModel = require('../models/Materia.js');
 const DocenteModel = require('../models/Usuario.js');
 const RolModel = require('../models/Rol.js');
-
+const AulaModel = require('../models/Aula.js');
+const CarreraModel = require('../models/Carrera.js');
 module.exports.getRegistros = async (req, res) => {
     try {
         const registros = await RegistroModel.findAll({
@@ -296,7 +297,8 @@ module.exports.getModulosWithUserRegistros = async (req, res) => {
                 },
                 {
                     model: GrupoModel,
-                    as: 'grupo'
+                    as: 'grupo',
+                    include: { all: true, nested: true }
                 },
                 {
                     model: MateriaModel,
@@ -308,7 +310,13 @@ module.exports.getModulosWithUserRegistros = async (req, res) => {
                     where: {
                         rolId: 4
                     }
+                },
+                {
+                    model: AulaModel,
+                    as: 'aula'
                 }
+                
+
             ]
         });
 

@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { CdkDialogContainer } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-registrar-asistencia',
@@ -39,7 +40,7 @@ export class RegistrarAsistenciaComponent {
   selectedDate: Date = new Date();
   maxDate: Date = new Date();
 
-  displayedColumns: string[] = ['materia', 'hora', 'docente', 'acciones'];
+  displayedColumns: string[] = ['aula','carrera','materia', 'hora', 'docente', 'acciones'];
 
   ngOnInit() {
     // this.appService.getGruposPermitidos().subscribe((res: any) => {
@@ -66,6 +67,7 @@ export class RegistrarAsistenciaComponent {
       const fecha = this.selectedDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
       this.appService.getModulosWithUserRegistros(this.selectedGrupo, fecha).subscribe((res: any) => {
         this.modulos = res;
+        // console.log(this.modulos);
       });
     }
   }

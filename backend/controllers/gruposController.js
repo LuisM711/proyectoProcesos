@@ -4,7 +4,9 @@ const ModuloModel = require('../models/Modulo.js');
 
 module.exports.getGrupos = async (req, res) => {
     try {
-        const grupos = await GrupoModel.findAll();
+        const grupos = await GrupoModel.findAll({
+            include: [{ all: true, nested: true }]
+        });
         return res.json(grupos);
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -15,7 +17,7 @@ module.exports.getGruposActivos = async (req, res) => {
         const grupos = await GrupoModel.findAll({
             where: {
                 isActive: true
-            }
+            } , include: [{ all: true, nested: true }]
         });
         return res.json(grupos);
     } catch (error) {

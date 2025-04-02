@@ -1,140 +1,144 @@
 <div class="adminContainer">
-    <app-sidebar></app-sidebar>
-    <div class="container">
-      <h1>Administración de Grupos</h1>
-      
-      <h2>Grupos existentes</h2>
-      <table mat-table [dataSource]="allGrupos" class="mat-elevation-z8" *ngIf="allGrupos.length > 0">
-        <ng-container matColumnDef="grado">
-          <th mat-header-cell *matHeaderCellDef>Grado</th>
-          <td mat-cell *matCellDef="let grupo"> {{ grupo.grado }} </td>
-        </ng-container>
-        <ng-container matColumnDef="grupo">
-          <th mat-header-cell *matHeaderCellDef>Grupo</th>
-          <td mat-cell *matCellDef="let grupo"> {{ grupo.grupo }} </td>
-        </ng-container>
-        <ng-container matColumnDef="nombreGrupo">
-          <th mat-header-cell *matHeaderCellDef>Nombre</th>
-          <td mat-cell *matCellDef="let grupo"> {{ grupo.nombreGrupo }} </td>
-        </ng-container>
-        <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef>Estado</th>
-          <td mat-cell *matCellDef="let grupo">
-            <span [style.color]="grupo.isActive ? 'green' : 'red'">
-              {{ grupo.isActive ? 'Activo' : 'Inactivo' }}
-            </span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef>Acciones</th>
-          <td mat-cell *matCellDef="let grupo">
-            <button mat-icon-button color="primary" (click)="editarGrupo(grupo)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" *ngIf="grupo.isActive" (click)="deshabilitarGrupo(grupo)">
-              <mat-icon>block</mat-icon>
-            </button>
-            <button mat-icon-button color="accent" *ngIf="!grupo.isActive" (click)="habilitarGrupo(grupo)">
-              <mat-icon>check_circle</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="['grado', 'grupo', 'nombreGrupo', 'isActive', 'acciones']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['grado', 'grupo', 'nombreGrupo', 'isActive', 'acciones']"></tr>
-      </table>
-      
-      <h2>Agregar nuevo grupo</h2>
-      <div class="nuevo-grupo-form">
-        <mat-form-field appearance="fill">
-          <mat-label>Grado</mat-label>
-          <input matInput type="number" [(ngModel)]="nuevoGrado">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Número de grupo</mat-label>
-          <input matInput type="number" [(ngModel)]="nuevoGrupoNumero">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="agregarGrupo()"
-          [disabled]="!(nuevoGrado && nuevoGrupoNumero)">
-          Agregar grupo
-        </button>
-      </div>
-      
-      <hr />
-      
-      <h1>Administración de módulos</h1>
-      <mat-form-field appearance="fill">
-        <mat-label>Seleccionar grupo</mat-label>
-        <mat-select (selectionChange)="onGrupoChange($event.value)">
-          <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
-            {{ grupo.nombreGrupo }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      
-      <table mat-table [dataSource]="modulos" class="mat-elevation-z8" *ngIf="modulos.length > 0">
-        <ng-container matColumnDef="hora">
-          <th mat-header-cell *matHeaderCellDef>Hora</th>
-          <td mat-cell *matCellDef="let modulo">
-            <mat-form-field appearance="fill">
-              <mat-label>Hora</mat-label>
-              <mat-select [(ngModel)]="modulo.horaId" (selectionChange)="onHoraChange(modulo, $event.value)">
-                <mat-option *ngFor="let hora of horas" [value]="hora.id">
-                  {{ hora.horaInicio }} - {{ hora.horaFin }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="materia">
-          <th mat-header-cell *matHeaderCellDef>Materia</th>
-          <td mat-cell *matCellDef="let modulo">
-            <mat-form-field appearance="fill">
-              <mat-label>Materia</mat-label>
-              <mat-select [(ngModel)]="modulo.materiaId" (selectionChange)="onMateriaChange(modulo, $event.value)">
-                <mat-option *ngFor="let materia of materias" [value]="materia.id">
-                  {{ materia.nombre }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="docente">
-          <th mat-header-cell *matHeaderCellDef>Docente</th>
-          <td mat-cell *matCellDef="let modulo">
-            <mat-form-field appearance="fill">
-              <mat-label>Docente</mat-label>
-              <mat-select [(ngModel)]="modulo.docenteId" (selectionChange)="onDocenteChange(modulo, $event.value)">
-                <mat-option *ngFor="let docente of docentes" [value]="docente.id">
-                  {{ docente.nombre }} {{ docente.apellido }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef>Acciones</th>
-          <td mat-cell *matCellDef="let modulo; let i = index">
-            <button mat-icon-button color="warn" (click)="eliminarModulo(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="['hora', 'materia', 'docente', 'acciones']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['hora', 'materia', 'docente', 'acciones'];"></tr>
-      </table>
-      
-      <button mat-icon-button color="primary" (click)="agregarModulo()" *ngIf="grupoSeleccionado"
-        matTooltip="Agregar módulo">
+  <app-sidebar></app-sidebar>
+  <div class="container">
+    <h1>Administración de Grupos</h1>
+
+    <h2>Grupos existentes</h2>
+    <table mat-table [dataSource]="allGrupos" class="mat-elevation-z8" *ngIf="allGrupos.length > 0">
+      <ng-container matColumnDef="grado">
+        <th mat-header-cell *matHeaderCellDef>Grado</th>
+        <td mat-cell *matCellDef="let grupo"> {{ grupo.grado }} </td>
+      </ng-container>
+      <ng-container matColumnDef="grupo">
+        <th mat-header-cell *matHeaderCellDef>Grupo</th>
+        <td mat-cell *matCellDef="let grupo"> {{ grupo.grupo }} </td>
+      </ng-container>
+      <ng-container matColumnDef="nombreGrupo">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let grupo"> {{ grupo.nombreGrupo }} </td>
+      </ng-container>
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let grupo">
+          <span [style.color]="grupo.isActive ? 'green' : 'red'">
+            {{ grupo.isActive ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let grupo">
+          <button mat-icon-button color="primary" (click)="editarGrupo(grupo)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" *ngIf="grupo.isActive" (click)="deshabilitarGrupo(grupo)">
+            <mat-icon>block</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" *ngIf="!grupo.isActive" (click)="habilitarGrupo(grupo)">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['grado', 'grupo', 'nombreGrupo', 'isActive', 'acciones']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['grado', 'grupo', 'nombreGrupo', 'isActive', 'acciones']"></tr>
+    </table>
+    <hr />
+    <button mat-raised-button color="primary" (click)="abrirModalNuevoGrupo()">
         <mat-icon>add</mat-icon>
+        Agregar nuevo grupo
       </button>
-      <button mat-raised-button color="accent" (click)="guardarCambios()" *ngIf="grupoSeleccionado"
-        style="margin-left: 10px;" [disabled]="!todosLosCamposLlenos()">
-        Guardar cambios
-      </button>
-    </div>
+
+    <hr />
+
+    <h1>Administración de módulos</h1>
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccionar grupo</mat-label>
+      <mat-select (selectionChange)="onGrupoChange($event.value)">
+        <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+          {{ grupo.nombreGrupo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="modulos" class="mat-elevation-z8" *ngIf="modulos.length > 0">
+
+      <ng-container matColumnDef="aula">
+        <th mat-header-cell *matHeaderCellDef>Aula</th>
+        <td mat-cell *matCellDef="let modulo">
+          <mat-form-field appearance="fill">
+            <mat-label>Aula</mat-label>
+            <mat-select [(ngModel)]="modulo.aulaId" (selectionChange)="onAulaChange(modulo, $event.value)">
+              <mat-option *ngFor="let aula of aulas" [value]="aula.id">
+                {{ aula.numero }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef>Hora</th>
+        <td mat-cell *matCellDef="let modulo">
+          <mat-form-field appearance="fill">
+            <mat-label>Hora</mat-label>
+            <mat-select [(ngModel)]="modulo.horaId" (selectionChange)="onHoraChange(modulo, $event.value)">
+              <mat-option *ngFor="let hora of horas" [value]="hora.id">
+                {{ hora.horaInicio }} - {{ hora.horaFin }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="materia">
+        <th mat-header-cell *matHeaderCellDef>Materia</th>
+        <td mat-cell *matCellDef="let modulo">
+          <mat-form-field appearance="fill">
+            <mat-label>Materia</mat-label>
+            <mat-select [(ngModel)]="modulo.materiaId" (selectionChange)="onMateriaChange(modulo, $event.value)">
+              <mat-option *ngFor="let materia of materias" [value]="materia.id">
+                {{ materia.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="docente">
+        <th mat-header-cell *matHeaderCellDef>Docente</th>
+        <td mat-cell *matCellDef="let modulo">
+          <mat-form-field appearance="fill">
+            <mat-label>Docente</mat-label>
+            <mat-select [(ngModel)]="modulo.docenteId" (selectionChange)="onDocenteChange(modulo, $event.value)">
+              <mat-option *ngFor="let docente of docentes" [value]="docente.id">
+                {{ docente.nombre }} {{ docente.apellido }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let modulo; let i = index">
+          <button mat-icon-button color="warn" (click)="eliminarModulo(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['aula','hora', 'materia', 'docente', 'acciones']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['aula','hora', 'materia', 'docente', 'acciones'];"></tr>
+    </table>
+
+    <button mat-icon-button color="primary" (click)="agregarModulo()" *ngIf="grupoSeleccionado"
+      matTooltip="Agregar módulo">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-raised-button color="accent" (click)="guardarCambios()" *ngIf="grupoSeleccionado"
+      style="margin-left: 10px;" [disabled]="!todosLosCamposLlenos()">
+      Guardar cambios
+    </button>
   </div>
+</div>

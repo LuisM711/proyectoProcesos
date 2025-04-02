@@ -182,5 +182,15 @@ export class AppService {
   deleteGrupo(id: number): Observable<any> {
     return this.http.delete<any>(`${environment.backendUrl}/grupo/${id}`, { withCredentials: true });
   }
+  /**
+   * router.get('/getAulas', generalController.getAulas);
+    router.get('/getCarreras', generalController.getCarreras);
+   */
+  getAulas(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/getAulas`, { withCredentials: true });
+  }
+  getCarreras(): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/getCarreras`, { withCredentials: true });
+  }
 
 }

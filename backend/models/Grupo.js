@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database.js');
+const Carrera = require('./Carrera.js');
 
 class Grupo extends Model { }
 Grupo.init({
@@ -24,6 +25,14 @@ Grupo.init({
             return `${grado}-${grupo}`;
         }
     },
+    carreraId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Carrera,
+            key: 'id'
+        },
+        allowNull: false
+    },
     isActive: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -32,8 +41,8 @@ Grupo.init({
 }, {
     hooks: {
         afterSync: async (options) => {
-            await Grupo.findOrCreate({ where: { grado: 4, grupo: 2 } });
-            await Grupo.findOrCreate({ where: { grado: 4, grupo: 1 } });
+            await Grupo.findOrCreate({ where: { grado: 4, grupo: 2, carreraId: 1 } });
+            await Grupo.findOrCreate({ where: { grado: 4, grupo: 1, carreraId: 1 } });
         }
     },
     sequelize,
@@ -49,4 +58,5 @@ Grupo.init({
     ]
 });
 
+Grupo.belongsTo(Carrera, { foreignKey: 'carreraId', as: 'carrera' });
 module.exports = Grupo;

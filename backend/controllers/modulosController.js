@@ -3,6 +3,7 @@ const ModuloModel = require('../models/Modulo.js');
 const GrupoModel = require('../models/Grupo.js');
 const MateriaModel = require('../models/Materia.js');
 const HoraModel = require('../models/Hora.js');
+const AulaModel = require('../models/Aula.js');
 
 module.exports.getModulos = async (req, res) => {
     try {
@@ -29,6 +30,10 @@ module.exports.getModulos = async (req, res) => {
                             rolId: 4
                         }
 
+                    },
+                    {
+                        model: AulaModel,
+                        as: 'aula'
                     }
                 ]
             }
@@ -103,6 +108,12 @@ module.exports.getModuloByGroup = async (req, res) => {
                     where: {
                         rolId: 4
                     }
+                },
+                {
+                    model: AulaModel,
+                    as: 'aula'
+                    //include all
+                    
                 }
             ],
             order: [
