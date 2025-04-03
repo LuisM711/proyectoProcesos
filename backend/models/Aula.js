@@ -9,7 +9,7 @@ Aula.init({
         autoIncrement: true
     },
     numero: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         allowNull: false
     },
 }, {
@@ -21,7 +21,13 @@ Aula.init({
             await Aula.findOrCreate({ where: { numero: 4 } });
             await Aula.findOrCreate({ where: { numero: 15 } });
             await Aula.findOrCreate({ where: { numero: 16 } });
-            
+
+            await Aula.findOrCreate({ where: { numero: "CC1" } });
+            await Aula.findOrCreate({ where: { numero: "CC2" } });
+            await Aula.findOrCreate({ where: { numero: "CC3" } });
+            await Aula.findOrCreate({ where: { numero: "CC4" } });
+
+            await Aula.findOrCreate({ where: { numero: "SUM" } });
         }
     },
     sequelize,

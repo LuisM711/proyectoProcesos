@@ -14,7 +14,7 @@ const generalController = require('../controllers/generalController');
 
 module.exports = () => {
     router.get('/', (req, res) => {
-        res.json({ message: 'Bienvenido a la API' });
+        return res.json({ message: 'Bienvenido a la API' });
     });
 
 

@@ -33,6 +33,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   styleUrls: ['./grupos.component.css']
 })
 export class GruposComponent {
+  carreras: any[] = [];
   grupos: any[] = [];
   horas: any[] = [];
   materias: any[] = [];
@@ -48,6 +49,9 @@ export class GruposComponent {
   constructor(private appService: AppService, private dialog: MatDialog) {
     this.cargarDatosIniciales();
     this.cargarGrupos();
+    this.appService.getCarreras().subscribe((carreras) => {
+      this.carreras = carreras;
+    });
   }
 
   cargarDatosIniciales(): void {
@@ -137,7 +141,8 @@ export class GruposComponent {
   abrirModalNuevoGrupo(): void {
     const dialogRef = this.dialog.open(EditGrupoDialogComponent, {
       width: '300px',
-      data: { grado: null, grupo: null }
+      //data: { ...grupo, carreras: this.carreras }
+      data: { grado: null, grupo: null, carrera: null, carreras: this.carreras }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -148,11 +153,12 @@ export class GruposComponent {
   }
   agregarGrupo(nuevoGrupo: any): void {
     const grupoParaGuardar = {
+      carreraId: nuevoGrupo.carreraId,
       grado: nuevoGrupo.grado,
       grupo: nuevoGrupo.grupo,
       isActive: true
     };
-    
+
     this.appService.addGrupo(grupoParaGuardar).subscribe((grupoGuardado) => {
       this.cargarDatosIniciales();
       this.cargarGrupos();
@@ -161,7 +167,7 @@ export class GruposComponent {
   editarGrupo(grupo: any): void {
     const dialogRef = this.dialog.open(EditGrupoDialogComponent, {
       width: '300px',
-      data: { ...grupo }
+      data: { ...grupo, carreras: this.carreras }
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -249,10 +255,27 @@ export class ConfirmDialogComponent {
 @Component({
   selector: 'app-edit-grupo-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    MatSelectModule
+  ],
   template: `
     <h1 mat-dialog-title>{{ data.id ? 'Editar grupo' : 'Nuevo grupo' }}</h1>
     <div mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Carrera</mat-label>
+        <mat-select [(ngModel)]="data.carreraId" placeholder="Seleccione una carrera">
+          <mat-option *ngFor="let carrera of data.carreras" [value]="carrera.id">
+            {{ carrera.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Grado</mat-label>
         <input matInput [(ngModel)]="data.grado" type="number">
@@ -264,7 +287,7 @@ export class ConfirmDialogComponent {
     </div>
     <div mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancelar</button>
-      <button mat-raised-button color="primary" (click)="onSave()">Guardar</button>
+      <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!todosLosCamposLlenos()">Guardar</button>
     </div>
   `
 })
@@ -272,7 +295,9 @@ export class EditGrupoDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<EditGrupoDialogComponent>
-  ) { }
+  ) {
+    console.log(data);
+  }
 
   onCancel(): void {
     this.dialogRef.close(null);
@@ -280,5 +305,8 @@ export class EditGrupoDialogComponent {
 
   onSave(): void {
     this.dialogRef.close(this.data);
+  }
+  todosLosCamposLlenos(): boolean {
+    return this.data.carreraId !== null && this.data.grado !== null && this.data.grupo !== null;
   }
 }

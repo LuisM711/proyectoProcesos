@@ -52,7 +52,7 @@ Grupo.init({
     indexes: [
         {
             unique: true,
-            fields: ['grado', 'grupo'],
+            fields: ['grado', 'grupo', 'carreraId'],
             name: 'gruposIndex'
         }
     ]
