@@ -32,26 +32,56 @@ import { CdkDialogContainer } from '@angular/cdk/dialog';
 })
 export class RegistrarAsistenciaComponent {
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService) {
+
+
+  }
 
   grupos: any = [];
   modulos: any = [];
+  horas: any = [];
   selectedGrupo: any = null;
   selectedDate: Date = new Date();
+  selectedHora: any = null;
   maxDate: Date = new Date();
+  isChecador: boolean = false;
 
-  displayedColumns: string[] = ['aula','carrera','materia', 'hora', 'docente', 'acciones'];
+  displayedColumns: string[] = ['aula', 'carrera', 'materia', 'hora', 'docente', 'acciones'];
 
   ngOnInit() {
-    // this.appService.getGruposPermitidos().subscribe((res: any) => {
-    //   console.log("Grupos permitidos");
-    //   console.log(res);
-    //   // this.grupos = res;
-    //   // if (this.grupos.length > 0) {
-    //   //   this.selectedGrupo = this.grupos[0].id;
-    //   //   this.loadModulosWithRegistros();
-    //   // }
-    // });
+    this.comprobarChecador();
+    this.appService.getHoras().subscribe((res: any) => {
+      this.horas = res;
+      const now = new Date();
+      // console.log(now.getHours());
+      // console.log(now.getMinutes());
+  
+      now.setMinutes(0);
+      now.setSeconds(0);
+      console.log(now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }));
+      //search for the hour in the array of hours
+  
+      // console.log("foreach");
+      this.horas.forEach((hora: any) => {
+        console.log(hora.horaInicio);
+  
+        const horaInicioDate = new Date('1970-01-01T' + hora.horaInicio);
+        console.log(horaInicioDate);
+        if (horaInicioDate.getHours() === now.getHours()) {
+          this.selectedHora = hora.id;
+          console.log("Matching hour found");
+          console.log(hora.id);
+        }
+      });
+  
+    });
+    
+
+
+    // console.log(this.horas[0].horaInicio);
+    // console.log(this.isChecador);
+
+
 
     this.appService.getGruposPermitidos().subscribe((res: any) => {
       this.grupos = res;
@@ -79,10 +109,13 @@ export class RegistrarAsistenciaComponent {
   onDateChange() {
     this.loadModulosWithRegistros();
   }
+  onHoraChange() {
+    // this.loadModulosWithRegistros();
+  }
 
   toggleAsistencia(modulo: any) {
     const registro = modulo.registro;
-    const fecha = this.selectedDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    const fecha = this.selectedDate.toISOString().split('T')[0];
 
     if (registro) {
       registro.impartida = !registro.impartida;
@@ -109,5 +142,16 @@ export class RegistrarAsistenciaComponent {
       return 'inherit';
     }
     return registro.impartida ? 'lightgreen' : 'lightcoral';
+  }
+
+
+  comprobarChecador = () => {
+    this.appService.getInfo().subscribe((res: any) => {
+      console.log(res);
+      this.isChecador = res.rolId === 3;
+    });}
+
+  getHoras = () => {
+    
   }
 }

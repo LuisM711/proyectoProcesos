@@ -56,6 +56,7 @@ Usuario.init({
 
             //checador
             await Usuario.findOrCreate({ where: { nombre: 'Jose', apellido: 'Lopez', numeroDeCuenta: '88888888', password:'88888888', rolId: 3 } });
+            await Usuario.findOrCreate({ where: { nombre: 'Abraham', apellido: 'Linconln', numeroDeCuenta: '1234', password:'4321', rolId: 3 } });
         }
     },
     sequelize,
