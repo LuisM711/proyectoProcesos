@@ -46,7 +46,7 @@ export class RegistrarAsistenciaComponent {
   maxDate: Date = new Date();
   isChecador: boolean = false;
 
-  displayedColumns: string[] = ['aula', 'carrera', 'materia', 'hora', 'docente', 'acciones'];
+  displayedColumns: string[] = ['aula', 'grupo', 'carrera', 'materia', 'hora', 'docente', 'acciones'];
 
   ngOnInit() {
     this.comprobarChecador();
@@ -55,27 +55,27 @@ export class RegistrarAsistenciaComponent {
       const now = new Date();
       // console.log(now.getHours());
       // console.log(now.getMinutes());
-  
+
       now.setMinutes(0);
       now.setSeconds(0);
       console.log(now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }));
       //search for the hour in the array of hours
-  
+
       // console.log("foreach");
       this.horas.forEach((hora: any) => {
         console.log(hora.horaInicio);
-  
+
         const horaInicioDate = new Date('1970-01-01T' + hora.horaInicio);
-        console.log(horaInicioDate);
+        // console.log(horaInicioDate);
         if (horaInicioDate.getHours() === now.getHours()) {
           this.selectedHora = hora.id;
           console.log("Matching hour found");
-          console.log(hora.id);
+          // console.log(hora.id);
         }
       });
-  
+
     });
-    
+
 
 
     // console.log(this.horas[0].horaInicio);
@@ -87,9 +87,17 @@ export class RegistrarAsistenciaComponent {
       this.grupos = res;
       if (this.grupos.length > 0) {
         this.selectedGrupo = this.grupos[0].id;
-        this.loadModulosWithRegistros();
+        if (!this.isChecador)
+          this.loadModulosWithRegistros();
+        else this.appService.getModulosByHoraAndFecha(this.selectedHora, this.selectedDate.toISOString().split('T')[0]).subscribe((res: any) => {
+          this.modulos = res;
+          console.log(res);
+        }
+        );
       }
     });
+
+
   }
 
   loadModulosWithRegistros() {
@@ -101,6 +109,7 @@ export class RegistrarAsistenciaComponent {
       });
     }
   }
+
 
   onGrupoChange() {
     this.loadModulosWithRegistros();
@@ -149,9 +158,10 @@ export class RegistrarAsistenciaComponent {
     this.appService.getInfo().subscribe((res: any) => {
       console.log(res);
       this.isChecador = res.rolId === 3;
-    });}
+    });
+  }
 
   getHoras = () => {
-    
+
   }
 }

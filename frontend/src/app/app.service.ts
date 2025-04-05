@@ -193,4 +193,11 @@ export class AppService {
     return this.http.get<any>(`${environment.backendUrl}/getCarreras`, { withCredentials: true });
   }
 
+  //router.get('/modulos/:grupoId/hora/:horaId/fecha/:fecha/registros', registroController.getModulosByHoraAndFecha);
+  getModulosByHoraAndFecha(horaId: number, fecha: string): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/modulosPorHora?horaId=${horaId}&fecha=${fecha}`, { withCredentials: true });
+  }
+
+
+
 }

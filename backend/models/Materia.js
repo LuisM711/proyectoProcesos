@@ -26,6 +26,17 @@ Materia.init({
             await Materia.findOrCreate({ where: { nombre: 'Graficación' } });
             await Materia.findOrCreate({ where: { nombre: 'Redes neuronales y logica difusa' } });
             await Materia.findOrCreate({ where: { nombre: 'Sistemas distribuidos' } });
+
+
+            //civil
+            await Materia.findOrCreate({ where: { nombre: 'Análisis Estructural' } });
+            await Materia.findOrCreate({ where: { nombre: 'Procesos Constructivos' } });
+            await Materia.findOrCreate({ where: { nombre: 'Tecnología del Concreto' } });
+            await Materia.findOrCreate({ where: { nombre: 'Ingeniería en Sistemas' } });
+            await Materia.findOrCreate({ where: { nombre: 'Mecánica de Suelos' } });
+            await Materia.findOrCreate({ where: { nombre: 'Hidrología' } });
+            await Materia.findOrCreate({ where: { nombre: 'Laboratorio IS, MS y TC' } });
+
         }
     },
     sequelize,

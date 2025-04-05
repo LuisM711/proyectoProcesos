@@ -6,7 +6,7 @@
       <mat-label>Seleccionar grupo</mat-label>
       <mat-select [(ngModel)]="selectedGrupo" (selectionChange)="onGrupoChange()">
         <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
-          {{ grupo.nombreGrupo }}
+          {{ grupo.nombreGrupo }} - {{ grupo.carrera.nombre }}F
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -43,6 +43,13 @@
       <th mat-header-cell *matHeaderCellDef> Aula </th>
       <td mat-cell *matCellDef="let modulo" [style.backgroundColor]="getRowColor(modulo)">
         {{ modulo.aula.numero }}
+      </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="grupo">
+      <th mat-header-cell *matHeaderCellDef> Grupo </th>
+      <td mat-cell *matCellDef="let modulo" [style.backgroundColor]="getRowColor(modulo)">
+        {{ modulo.grupo.nombreGrupo }}
       </td>
     </ng-container>
     

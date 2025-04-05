@@ -63,10 +63,13 @@ module.exports = () => {
     router.put('/registros/:id', registroController.putRegistro);
     router.delete('/registros/:id', registroController.deleteRegistro);
     router.get('/registros/fecha/:fecha', registroController.getRegistrosByFecha);
+
     router.get('/registros/modulo/:moduloId', registroController.getRegistrosByModulo);
     router.get('/registros/grupo/:grupoId', registroController.getRegistrosByGrupo);
     //getRegistros
     router.get('/modulos/:grupoId/registros-usuario', registroController.getModulosWithUserRegistros);
+
+    router.get('/modulosPorHora', registroController.getModulosByHoraAndFecha);
 
     router.get('/getAulas', generalController.getAulas);
     router.get('/getCarreras', generalController.getCarreras);

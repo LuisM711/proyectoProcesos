@@ -40,9 +40,21 @@ Grupo.init({
     }
 }, {
     hooks: {
+        /**
+         * await Carrera.findOrCreate({ where: { nombre: 'Ingeniería de Software' } });
+            await Carrera.findOrCreate({ where: { nombre: 'Ingeniería Civil' } });
+            await Carrera.findOrCreate({ where: { nombre: 'Ingeniería en Procesos Industriales' } });
+            await Carrera.findOrCreate({ where: { nombre: 'Ingeniería Geodésica' } });
+            await Carrera.findOrCreate({ where: { nombre: 'Ingeniería en Nanotecnología y Energías Renovables' } });
+         */
         afterSync: async (options) => {
+            //software
             await Grupo.findOrCreate({ where: { grado: 4, grupo: 2, carreraId: 1 } });
             await Grupo.findOrCreate({ where: { grado: 4, grupo: 1, carreraId: 1 } });
+
+            //civil
+            await Grupo.findOrCreate({ where: { grado: 3, grupo: 1, carreraId: 2 } });
+            await Grupo.findOrCreate({ where: { grado: 3, grupo: 2, carreraId: 2 } });
         }
     },
     sequelize,

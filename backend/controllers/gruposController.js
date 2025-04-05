@@ -34,7 +34,8 @@ module.exports.getGruposPermitidos = async (req, res) => {
             grupos = await GrupoModel.findAll({
                 where: {
                     isActive: true
-                }
+                },
+                include: [{ all: true, nested: true }]
             });
         } else if (rolId === 2) { // Jefegpo (2)
             const usuarioGrupo = await UsuarioGrupo.findOne({

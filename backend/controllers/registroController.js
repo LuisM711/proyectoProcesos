@@ -347,6 +347,74 @@ module.exports.getModulosWithUserRegistros = async (req, res) => {
         return res.status(400).json({ message: error.message });
     }
 };
+module.exports.getModulosByHoraAndFecha = async (req, res) => {
+
+    try {
+        const usuarioId = req.session.token.id;
+        const horaId = req.query.horaId;
+        const fecha = req.query.fecha;
+        console.log("DATOSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        console.log(usuarioId, horaId, fecha);
+
+        
+        const modulos = await ModuloModel.findAll({
+            where: { horaId: horaId },
+            include: [
+                {
+                    model: HoraModel,
+                    as: 'hora'
+                },
+                {
+                    model: GrupoModel,
+                    as: 'grupo',
+                    include: { all: true, nested: true }
+                },
+                {
+                    model: MateriaModel,
+                    as: 'materia'
+                },
+                {
+                    model: DocenteModel,
+                    as: 'docente',
+                    where: { rolId: 4 }
+                },
+                {
+                    model: AulaModel,
+                    as: 'aula'
+                }
+            ],
+            order: [[{ model: AulaModel, as: 'aula' }, 'numero', 'ASC']]
+        });
+
+        const registros = await RegistroModel.findAll({
+            where: {
+                usuarioId: usuarioId,
+                fecha: fecha
+            },
+            include: [
+                {
+                    model: ModuloModel,
+                    as: 'modulo',
+                    where: { horaId: horaId }
+                }
+            ]
+        });
+
+        const modulosWithRegistros = modulos.map(modulo => {
+            const registro = registros.find(r => r.moduloId === modulo.id);
+            return {
+                ...modulo.toJSON(),
+                registro: registro || null
+            };
+        });
+
+        return res.json(modulosWithRegistros);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+};
+
+
 module.exports.getRegistrosByModulo = async (req, res) => {
     try {
         const registros = await RegistroModel.findAll({
