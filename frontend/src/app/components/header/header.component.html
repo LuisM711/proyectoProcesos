@@ -9,6 +9,7 @@
         <a mat-button routerLink="/registrar-asistencia" routerLinkActive="active-link">Registrar asistencia</a>
         <a mat-button *ngIf="isAdmin" routerLinkActive="active-link" routerLink="/admin">Admin</a>
         <!-- <a mat-button routerLink="/admin" routerLinkActive="active-link">Admin</a> -->
+        <a mat-button *ngIf="isDocente" routerLink="/mis-asistencias" routerLinkActive="active-link">Mis asistencias</a>
 
     </div>
 

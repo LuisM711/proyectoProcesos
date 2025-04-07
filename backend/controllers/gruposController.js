@@ -48,7 +48,8 @@ module.exports.getGruposPermitidos = async (req, res) => {
                         as: 'grupo',
                         where: {
                             isActive: true
-                        }
+                        },
+                        include: [{ all: true, nested: true }]
                     }
                 ]
             });
@@ -70,7 +71,8 @@ module.exports.getGruposPermitidos = async (req, res) => {
                         as: 'grupo',
                         where: {
                             isActive: true
-                        }
+                        },
+                        include: [{ all: true, nested: true }]
                     }
                 ]
             });

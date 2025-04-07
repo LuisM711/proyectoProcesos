@@ -10,8 +10,9 @@ import { GruposComponent } from './components/grupos/grupos.component';
 import { DocentesComponent } from './components/docentes/docentes.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { RegistrarAsistenciaComponent } from './components/registrar-asistencia/registrar-asistencia.component';
+import { MisAsistenciasComponent } from './components/mis-asistencias/mis-asistencias.component';
 
-import { verificarGuard, verificarGuardAdmin } from './verificar.guard';
+import { verificarGuard, verificarGuardAdmin, verificarGuardDocente } from './verificar.guard';
 
 export const routes: Routes = [
 
@@ -33,6 +34,7 @@ export const routes: Routes = [
             // { path: 'pedidos-pendientes', component: PedidosPendientesComponent, canActivate: [verificarGuard] },
         ]
     },
+    {path: 'mis-asistencias', component: MisAsistenciasComponent, canActivate: [verificarGuardDocente]},
 
 
 

@@ -15,6 +15,7 @@ import { AppService } from '../../app.service';
 })
 export class HeaderComponent {
   isAdmin = false;
+  isDocente = false;
   loggedIn = false;
 
   constructor(private appService: AppService) {
@@ -30,6 +31,7 @@ export class HeaderComponent {
           this.isAdmin = false;
         }
         this.loggedIn = true;
+        this.isDocente = response.rolId === 4;
       },
       (error) => {
         // console.log(error);
@@ -44,6 +46,7 @@ export class HeaderComponent {
         // console.log(response);
         if (response) {
           this.isAdmin = false;
+          this.isDocente = false;
           this.loggedIn = false;
           window.location.reload();
         }
