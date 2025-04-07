@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { AppService } from '../../app.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CdkDialogContainer } from '@angular/cdk/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-registrar-asistencia',
@@ -25,18 +28,26 @@ import { CdkDialogContainer } from '@angular/cdk/dialog';
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatPaginatorModule,
+    MatPaginator
+
   ],
   templateUrl: './registrar-asistencia.component.html',
   styleUrls: ['./registrar-asistencia.component.css']
 })
-export class RegistrarAsistenciaComponent {
+export class RegistrarAsistenciaComponent implements AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new MatTableDataSource<any>([]);
 
   constructor(private appService: AppService) {
 
 
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
   grupos: any = [];
   modulos: any = [];
   horas: any = [];
@@ -89,8 +100,10 @@ export class RegistrarAsistenciaComponent {
         this.selectedGrupo = this.grupos[0].id;
         if (!this.isChecador)
           this.loadModulosWithRegistros();
-        else this.appService.getModulosByHoraAndFecha(this.selectedHora, this.selectedDate.toISOString().split('T')[0]).subscribe((res: any) => {
+        else this.appService.getModulosByHoraAndFecha(this.selectedHora, this.getFechaLocal(this.selectedDate)).subscribe((res: any) => {
           this.modulos = res;
+          this.dataSource.data = res;
+
           console.log(res);
         }
         );
@@ -102,10 +115,10 @@ export class RegistrarAsistenciaComponent {
 
   loadModulosWithRegistros() {
     if (this.selectedGrupo) {
-      const fecha = this.selectedDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+      const fecha = this.getFechaLocal(this.selectedDate);
       this.appService.getModulosWithUserRegistros(this.selectedGrupo, fecha).subscribe((res: any) => {
         this.modulos = res;
-        // console.log(this.modulos);
+        this.dataSource.data = res;
       });
     }
   }
@@ -116,15 +129,29 @@ export class RegistrarAsistenciaComponent {
   }
 
   onDateChange() {
-    this.loadModulosWithRegistros();
+    if (!this.isChecador)
+      this.loadModulosWithRegistros();
+    else this.appService.getModulosByHoraAndFecha(this.selectedHora, this.getFechaLocal(this.selectedDate)).subscribe((res: any) => {
+      this.modulos = res;
+      this.dataSource.data = res;
+
+      // console.log(res);
+    });
+
   }
   onHoraChange() {
-    // this.loadModulosWithRegistros();
+    this.appService.getModulosByHoraAndFecha(this.selectedHora, this.getFechaLocal(this.selectedDate)).subscribe((res: any) => {
+      this.modulos = res;
+      this.dataSource.data = res; // Asigna los datos al dataSource
+    });
   }
 
   toggleAsistencia(modulo: any) {
     const registro = modulo.registro;
-    const fecha = this.selectedDate.toISOString().split('T')[0];
+
+    // Obtener fecha local en formato YYYY-MM-DD sin conversión a UTC
+    const fecha = this.getFechaLocal(this.selectedDate);
+    console.log('Fecha local:', fecha);
 
     if (registro) {
       registro.impartida = !registro.impartida;
@@ -144,6 +171,15 @@ export class RegistrarAsistenciaComponent {
       });
     }
   }
+
+  // Función auxiliar para formatear fecha local como YYYY-MM-DD
+  getFechaLocal(date: Date): string {
+    const anio = date.getFullYear();
+    const mes = (date.getMonth() + 1).toString().padStart(2, '0');
+    const dia = date.getDate().toString().padStart(2, '0');
+    return `${anio}-${mes}-${dia}`;
+  }
+
 
   getRowColor(modulo: any) {
     const registro = modulo.registro;

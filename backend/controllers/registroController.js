@@ -353,8 +353,8 @@ module.exports.getModulosByHoraAndFecha = async (req, res) => {
         const usuarioId = req.session.token.id;
         const horaId = req.query.horaId;
         const fecha = req.query.fecha;
-        console.log("DATOSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        console.log(usuarioId, horaId, fecha);
+        // console.log("DATOSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        // console.log(usuarioId, horaId, fecha);
 
         
         const modulos = await ModuloModel.findAll({
@@ -383,7 +383,7 @@ module.exports.getModulosByHoraAndFecha = async (req, res) => {
                     as: 'aula'
                 }
             ],
-            order: [[{ model: AulaModel, as: 'aula' }, 'numero', 'ASC']]
+            order: [[{ model: AulaModel, as: 'aula' }, 'id', 'ASC']]
         });
 
         const registros = await RegistroModel.findAll({
