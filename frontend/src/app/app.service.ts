@@ -197,6 +197,9 @@ export class AppService {
   getModulosByHoraAndFecha(horaId: number, fecha: string): Observable<any> {
     return this.http.get<any>(`${environment.backendUrl}/modulosPorHora?horaId=${horaId}&fecha=${fecha}`, { withCredentials: true });
   }
+  getMisAsistencias(fechaInicio:string, fechaFin:string): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/misAsistencias?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`, { withCredentials: true });
+  }
 
 
 

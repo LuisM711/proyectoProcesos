@@ -73,6 +73,12 @@ module.exports = () => {
 
     router.get('/getAulas', generalController.getAulas);
     router.get('/getCarreras', generalController.getCarreras);
+    /**
+     * getMisAsistencias(fechaInicio:string, fechaFin:string): Observable<any> {
+    return this.http.get<any>(`${environment.backendUrl}/misAsistencias?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`, { withCredentials: true });
+  }
+     */
+    router.get('/misAsistencias', registroController.getMisAsistencias);
 
     return router;
 }

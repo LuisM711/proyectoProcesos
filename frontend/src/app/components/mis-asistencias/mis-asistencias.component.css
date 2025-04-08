@@ -1,0 +1,54 @@
+.contenedor {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-card {
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.report-card, .details-card {
+    margin-top: 20px;
+}
+
+.summary-title {
+    color: #3f51b5;
+    margin: 16px 0;
+}
+
+mat-list-item {
+    height: 72px !important;
+}
+
+.impartida {
+    color: green;
+    font-weight: bold;
+}
+
+.no-impartida {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.registro-details {
+    padding: 10px;
+}
+
+.registro-details p {
+    margin: 5px 0;
+}
+
+mat-spinner {
+    margin: 0 auto;
+}
+
+.error-card {
+    margin-top: 20px;
+    border-color: #f44336;
+}
+
+mat-progress-bar {
+    margin-top: 5px;
+}

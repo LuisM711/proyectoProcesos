@@ -1,33 +1,149 @@
-<div class="container">
-    <h1>Consultar mis asistencias</h1>
-    <mat-form-field>
-        <mat-label>Rango de fechas</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="minDate" [max]="maxDate">
-            <input  matStartDate formControlName="start" placeholder="Fecha de inicio" readonly>
-            <input matInput matEndDate formControlName="end" [max]="maxDate" placeholder="Fecha de fin" readonly>
-        </mat-date-range-input>
-        <mat-hint>DD/MM/YYYY - DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+<div class="contenedor">
+    <h1 style="text-align: center;">Consultar mis asistencias</h1>
 
+    <mat-card appearance="outlined" class="search-card">
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Rango de fechas</mat-label>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+                    <input matStartDate formControlName="start" placeholder="Fecha de inicio" readonly>
+                    <input matEndDate formControlName="end" placeholder="Fecha de fin" readonly>
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+            </mat-form-field>
 
-        @if (range.controls.start.hasError('required')) {
-        <mat-error>Fecha de inicio requerida</mat-error>
-        }
-        @if (range.controls.start.hasError('matDatepickerMax')) {
-        <mat-error>No puede ser posterior a hoy</mat-error>
-        }
-        @if (range.controls.end.hasError('required')) {
-        <mat-error>Fecha de fin requerida</mat-error>
-        }
-        @if (range.controls.end.hasError('matDatepickerMax')) {
-        <mat-error>No puede ser posterior a hoy</mat-error>
-        }
-        @if (range.hasError('dateRange')) {
-        <mat-error>La fecha de inicio debe ser anterior a la fecha de fin</mat-error>
-        }
-    </mat-form-field>
+            <mat-error
+                *ngIf="range.controls.start.hasError('required') && (range.controls.start.touched || range.controls.start.dirty)">
+                Fecha de inicio requerida
+            </mat-error>
+            <mat-error
+                *ngIf="range.controls.end.hasError('required') && (range.controls.end.touched || range.controls.end.dirty)">
+                Fecha de fin requerida
+            </mat-error>
+            @if (range.hasError('dateRange')) {
+            <mat-error>La fecha de inicio debe ser anterior a la fecha de fin</mat-error>
+            }
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-flat-button color="primary" [disabled]="isButtonDisabled || isLoading"
+                (click)="consultarAsistencias()">
+                @if (isLoading) {
+                <mat-spinner diameter="20"></mat-spinner>
+                } @else {
+                Consultar
+                }
+            </button>
+        </mat-card-actions>
+    </mat-card>
 
-    <!-- <p>Rango seleccionado: {{range.value | json}}</p> -->
-    <button mat-flat-button color="primary" [disabled]="isButtonDisabled">Consultar</button>
+    @if (isLoading === true) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+
+    @if (error) {
+    <mat-card appearance="outlined" class="error-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar color="warn">error</mat-icon>
+            <mat-card-title>Error</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ error }}</p>
+        </mat-card-content>
+    </mat-card>
+    }
+
+    @if (reporte) {
+    <mat-card appearance="outlined" class="report-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar color="primary">assignment</mat-icon>
+            <mat-card-title>Reporte de Asistencias</mat-card-title>
+            <mat-card-subtitle>
+                {{ range.value.start | date:'shortDate' }} - {{ range.value.end | date:'shortDate' }}
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+            <h3 class="summary-title">{{ reporte.resumen.general }}</h3>
+
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>person</mat-icon>
+                    <div mat-line>{{ reporte.resumen.docente }}</div>
+                    <mat-progress-bar mat-line mode="determinate"
+                        [value]="reporte.resumen.asistencias.docente.replace('%', '')"
+                        [color]="getColorForPercentage(reporte.resumen.asistencias.docente)">
+                    </mat-progress-bar>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <mat-icon mat-list-icon>verified_user</mat-icon>
+                    <div mat-line>{{ reporte.resumen.checador }}</div>
+                    <mat-progress-bar mat-line mode="determinate"
+                        [value]="reporte.resumen.asistencias.checador.replace('%', '')"
+                        [color]="getColorForPercentage(reporte.resumen.asistencias.checador)">
+                    </mat-progress-bar>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <mat-icon mat-list-icon>group</mat-icon>
+                    <div mat-line>{{ reporte.resumen.jefeGrupo }}</div>
+                    <mat-progress-bar mat-line mode="determinate"
+                        [value]="reporte.resumen.asistencias.jefeGrupo.replace('%', '')"
+                        [color]="getColorForPercentage(reporte.resumen.asistencias.jefeGrupo)">
+                    </mat-progress-bar>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <mat-icon mat-list-icon>admin_panel_settings</mat-icon>
+                    <div mat-line>{{ reporte.resumen.administrador }}</div>
+                    <mat-progress-bar mat-line mode="determinate"
+                        [value]="reporte.resumen.asistencias.administrador.replace('%', '')"
+                        [color]="getColorForPercentage(reporte.resumen.asistencias.administrador)">
+                    </mat-progress-bar>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="details-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>list_alt</mat-icon>
+            <mat-card-title>Detalle de Registros</mat-card-title>
+            <mat-card-subtitle>Total: {{ reporte.todosLosRegistros.length }} registros</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+            <mat-accordion>
+                @for (registro of reporte.todosLosRegistros; track registro.id) {
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ registro.fecha }} - {{ registro.modulo.materia.nombre }}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <span [class.impartida]="registro.impartida" [class.no-impartida]="!registro.impartida">
+                                {{ registro.impartida ? 'Impartida' : 'No impartida' }}
+                            </span>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="registro-details">
+                        <p><strong>Grupo:</strong> {{ registro.modulo.grupo.nombreGrupo }}</p>
+                        <p><strong>Horario:</strong> {{ registro.modulo.hora.horaInicio }} - {{
+                            registro.modulo.hora.horaFin }}</p>
+                        <p><strong>Registrado por:</strong> {{ registro.usuario.nombre }} {{ registro.usuario.apellido
+                            }} ({{ registro.usuario.rol.nombre }})</p>
+                    </div>
+                </mat-expansion-panel>
+                }
+            </mat-accordion>
+        </mat-card-content>
+    </mat-card>
+    }
 </div>

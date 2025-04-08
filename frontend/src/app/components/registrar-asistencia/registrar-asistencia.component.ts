@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { CdkDialogContainer } from '@angular/cdk/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 import { MatTableDataSource } from '@angular/material/table';
@@ -69,18 +68,18 @@ export class RegistrarAsistenciaComponent implements AfterViewInit {
 
       now.setMinutes(0);
       now.setSeconds(0);
-      console.log(now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }));
+
       //search for the hour in the array of hours
 
       // console.log("foreach");
       this.horas.forEach((hora: any) => {
-        console.log(hora.horaInicio);
 
+        
         const horaInicioDate = new Date('1970-01-01T' + hora.horaInicio);
         // console.log(horaInicioDate);
         if (horaInicioDate.getHours() === now.getHours()) {
           this.selectedHora = hora.id;
-          console.log("Matching hour found");
+
           // console.log(hora.id);
         }
       });
@@ -151,8 +150,8 @@ export class RegistrarAsistenciaComponent implements AfterViewInit {
 
     // Obtener fecha local en formato YYYY-MM-DD sin conversión a UTC
     const fecha = this.getFechaLocal(this.selectedDate);
-    console.log('Fecha local:', fecha);
 
+    
     if (registro) {
       registro.impartida = !registro.impartida;
       this.appService.updateRegistro(registro).subscribe(() => {
