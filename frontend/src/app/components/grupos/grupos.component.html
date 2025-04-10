@@ -1,7 +1,7 @@
 <div class="adminContainer">
   <app-sidebar></app-sidebar>
   <div class="container">
-    <h1>Administración de Grupos</h1>
+    <h1>Administración de grupos</h1>
 
     <h2>Grupos existentes</h2>
     <table mat-table [dataSource]="allGrupos" class="mat-elevation-z8" *ngIf="allGrupos.length > 0">
@@ -60,7 +60,7 @@
       <mat-label>Seleccionar grupo</mat-label>
       <mat-select (selectionChange)="onGrupoChange($event.value)">
         <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
-          {{ grupo.nombreGrupo }}
+          {{ grupo.nombreGrupo }} - {{ grupo.carrera.nombre }}
         </mat-option>
       </mat-select>
     </mat-form-field>

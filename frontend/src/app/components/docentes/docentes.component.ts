@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,28 +9,38 @@ import { AppService } from '../../app.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-docentes',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatDialogModule, FormsModule, SidebarComponent, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatDialogModule, FormsModule, SidebarComponent, MatFormFieldModule, MatInputModule, MatPaginatorModule],
   templateUrl: './docentes.component.html',
   styleUrl: './docentes.component.css'
 })
 export class DocentesComponent implements OnInit {
   private appService = inject(AppService);
   private dialog = inject(MatDialog);
-  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new MatTableDataSource<any>([]);
+
   docentes: any[] = [];
   displayedColumns: string[] = ['nombre', 'apellido', 'acciones'];
 
   ngOnInit() {
     this.loadDocentes();
   }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   loadDocentes() {
     this.appService.getDocentes().subscribe((data) => {
       this.docentes = data;
+      this.dataSource.data = data;
+
     });
   }
 
@@ -89,7 +99,7 @@ export class DocenteDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DocenteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   onNoClick(): void {
     this.dialogRef.close();

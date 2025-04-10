@@ -53,11 +53,11 @@ export class LoginComponent {
             window.location.href = '/';
           }
         } else {
-          this.snackBar.open('Error al iniciar sesión', 'Close', { duration: 3000 });
+          // this.snackBar.open('Error al iniciar sesión', 'Close', { duration: 3000 });
         }
       },
       () => {
-        this.snackBar.open('Error al iniciar sesión', 'Close', { duration: 3000 });
+        // this.snackBar.open('Error al iniciar sesión', 'Close', { duration: 3000 });
       }
     );
   }

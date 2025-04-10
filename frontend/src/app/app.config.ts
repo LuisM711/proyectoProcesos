@@ -6,13 +6,14 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { loadingInterceptor } from './components/interceptor/loading.interceptor';
+import { errorInterceptor } from './components/interceptor/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
+    provideHttpClient(withInterceptors([loadingInterceptor, errorInterceptor])),
     provideAnimationsAsync(),
-    { provide: LOCALE_ID, useValue: 'es-MX' } // 👈 Esto cambia el formato del datepicker
+    { provide: LOCALE_ID, useValue: 'es-MX' }
   ]
 };
