@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-
+import { environment } from '../../app.environment';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -9,10 +9,11 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+  environment = environment;
   images = [
-    'http://localhost:4200/slider/1.jpg',
-    'http://localhost:4200/slider/2.png',
-    'http://localhost:4200/slider/3.jpg',
+    `${environment.url}/slider/1.jpg`,
+    `${environment.url}/slider/2.jpg`,
+    `${environment.url}/slider/3.jpg`,
   ];
   currentIndex = 0;
   autoSlide = true;
