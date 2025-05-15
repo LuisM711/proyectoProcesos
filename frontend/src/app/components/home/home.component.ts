@@ -12,7 +12,7 @@ export class HomeComponent {
   environment = environment;
   images = [
     `${environment.url}/slider/1.jpg`,
-    `${environment.url}/slider/2.jpg`,
+    `${environment.url}/slider/2.png`,
     `${environment.url}/slider/3.jpg`,
   ];
   currentIndex = 0;
