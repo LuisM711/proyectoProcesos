@@ -27,7 +27,7 @@ export class EditUsuarioDialogComponent {
   roles: any[] = [];
   grupos: any[] = [];
   isEdit: boolean;
-  jefeGpoRolId: number = 2; // ID del rol "JefeGPO"
+  jefeGpoRolId: number = 2;
 
   constructor(
     private fb: FormBuilder,
@@ -42,7 +42,7 @@ export class EditUsuarioDialogComponent {
       nombre: [data.nombre || '', Validators.required],
       apellido: [data.apellido || '', Validators.required],
       numeroDeCuenta: [data.numeroDeCuenta || '', Validators.required],
-      password: [data.numeroDeCuenta || '', Validators.required],
+      password: [data.password || ''],
       rolId: [data.rolId || '', Validators.required],
       grupoId: [data.usuarioGrupo?.grupoId || null],
       isActive: [data.isActive || false, Validators.required]
@@ -82,6 +82,10 @@ export class EditUsuarioDialogComponent {
           this.dialogRef.close(true);
         });
       } else {
+        //set password to numeroDeCuenta if not provided
+        if (!this.editForm.value.password) {
+          this.editForm.patchValue({ password: this.editForm.value.numeroDeCuenta });
+        }
         this.appService.createUsuario(this.editForm.value).subscribe(() => {
           this.dialogRef.close(true);
         });

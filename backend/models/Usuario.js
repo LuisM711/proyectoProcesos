@@ -67,7 +67,7 @@ Usuario.init({
             
             
             await Usuario.findOrCreate({ where: { nombre: 'Luis Mario', apellido: 'López Reyes', numeroDeCuenta: '18002188', password: 'Luis1234', rolId: 1 } });
-            await Usuario.findOrCreate({ where: { nombre: 'Juan', apellido: 'Perez', numeroDeCuenta: '12345678', password: '12345678', rolId: 1 } });
+            await Usuario.findOrCreate({ where: { nombre: 'Juan', apellido: 'Perez', numeroDeCuenta: '12345678', password: 'password', rolId: 1 } });
 
             //checador
             await Usuario.findOrCreate({ where: { nombre: 'Jose', apellido: 'Lopez', numeroDeCuenta: '88888888', password:'88888888', rolId: 3 } });

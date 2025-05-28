@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-reportes',
@@ -26,7 +27,8 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
     MatIconModule,
     MatInputModule,
     MatSortModule,
-    SidebarComponent
+    SidebarComponent,
+    MatCardModule
 
   ],
   templateUrl: './reportes.component.html',
